@@ -331,6 +331,14 @@ model KBConcept {
   quality    Float               @default(0.7)
   visibility KBConceptVisibility @default(hidden)
 
+  // Custom
+
+  lat Float?
+  lng Float?
+  alt Float?
+
+  // Eof Custom
+
   @@unique([rootId, code])
   @@unique([parentId, code])
   @@index([parentId])
@@ -339,6 +347,8 @@ model KBConcept {
   @@index([code])
   @@index([quality])
   @@index([visibility])
+  @@index([lat])
+  @@index([lng])
 }
 
 // Label roles define how a name relates to its concept:

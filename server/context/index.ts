@@ -1,3 +1,4 @@
+import { knexClient } from 'server/knex'
 import type { User } from '@prisma/client'
 import { prismaClient } from '../prisma'
 import { TokenType, verifyToken } from '../schema/types/User/helpers/auth'
@@ -33,6 +34,7 @@ export async function createContext({
   }
 
   return {
+    knex: knexClient,
     prisma: prismaClient,
     currentUser,
     Token: null,

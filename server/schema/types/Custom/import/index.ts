@@ -1,0 +1,5 @@
+import './resolvers/users'
+import './resolvers/files'
+// import './resolvers/cities'
+import './resolvers/companies'
+import './resolvers/resources'
