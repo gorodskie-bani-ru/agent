@@ -6,7 +6,7 @@ import { RequestType } from '.storybook/addons/msw/msw-adapter'
 type Props = Parameters<typeof Component>[0]
 
 const meta = {
-  title: 'Components/Auth/SignUpForm',
+  title: 'Компоненты/Авторизация/Форма регистрации',
   component: Component,
   parameters: {
     appContext: {
@@ -31,7 +31,7 @@ export const Default: Story = {
               response: {
                 __typename: 'AuthPayload',
                 success: true,
-                message: 'Registration successful',
+                message: 'Регистрация выполнена',
                 token: 'mock-jwt-token-12345',
               },
             },
@@ -60,7 +60,8 @@ export const UserAlreadyExists: Story = {
               response: {
                 __typename: 'AuthPayload',
                 success: false,
-                message: 'User with this email already exists',
+                message:
+                  'Пользователь с такой электронной почтой уже существует',
                 token: null,
               },
             },

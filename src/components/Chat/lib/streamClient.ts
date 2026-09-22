@@ -63,7 +63,7 @@ export async function sendMessageStream(
     }
 
     if (!response.body) {
-      throw new Error('No response body')
+      throw new Error('Ответ сервера пуст')
     }
 
     const reader = response.body.getReader()
@@ -82,7 +82,7 @@ export async function sendMessageStream(
             } else if (chunk.type === 'error') {
               const msg =
                 chunk.metadata?.message ||
-                `Error in ${chunk.metadata?.nodeName || 'agent'}`
+                `Ошибка в ${chunk.metadata?.nodeName || 'агенте'}`
               onError(new Error(msg))
               return
             }
@@ -106,7 +106,7 @@ export async function sendMessageStream(
           } else if (chunk.type === 'error') {
             const msg =
               chunk.metadata?.message ||
-              `Error in ${chunk.metadata?.nodeName || 'agent'}`
+              `Ошибка в ${chunk.metadata?.nodeName || 'агенте'}`
             onError(new Error(msg))
             return
           }

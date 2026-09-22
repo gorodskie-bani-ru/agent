@@ -18,7 +18,7 @@ export const SignOutButton: React.FC<SignOutButtonProps> = (props) => {
       onClick={handleSignOut}
       {...props}
     >
-      Sign Out
+      Выйти
     </Button>
   )
 }

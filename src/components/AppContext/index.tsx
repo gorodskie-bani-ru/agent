@@ -5,8 +5,11 @@ import { MeQuery } from 'src/gql/generated'
 
 import { useRouter } from 'next/router'
 import { AuthModal } from 'src/components/Auth/AuthModal'
+import { useMapData, useMapDataResult } from 'src/Custom/hooks/useMapData'
 
 export type AppContextValue = {
+  mapData: useMapDataResult | undefined
+
   user: MeQuery['me']
   userLoading: boolean
 
@@ -64,8 +67,11 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     await apolloClient.resetStore().catch(console.error)
   }, [apolloClient])
 
+  const mapData = useMapData()
+
   const context = useMemo<AppContextValue>(() => {
     return {
+      mapData,
       user,
       userLoading,
       onAuth,
@@ -75,6 +81,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
       closeLoginForm,
     }
   }, [
+    mapData,
     onAuth,
     onSignOut,
     user,

@@ -13,6 +13,7 @@ export const withAppContext: Decorator = (Story, context) => {
   const user = params?.appContext?.user ?? null
 
   const contextValue: AppContextValue = {
+    mapData: undefined,
     user,
     onAuth: undefined,
     onSignOut: undefined,

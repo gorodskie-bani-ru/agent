@@ -68,6 +68,15 @@ async function startServer() {
     },
   })
 
+  // Proxy to tileserver
+  server.use(
+    '/styles',
+    createProxyMiddleware({
+      target: 'http://localhost:8080/styles',
+      changeOrigin: true,
+    }),
+  )
+
   server.use('/webhook', n8nProxy)
   server.use('/webhook-test', n8nProxy)
   server.use('/mcp', n8nProxy)

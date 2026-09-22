@@ -65,13 +65,14 @@ export const SignInForm: React.FC<SignInFormProps> = ({
                 onSuccessHandler?.(r.data.response)
               } else {
                 throw new Error(
-                  r.data?.response?.message || 'Invalid credentials',
+                  r.data?.response?.message || 'Неверный логин или пароль',
                 )
               }
             })
           } catch (error) {
             addMessage?.(
-              (error as Error).message || 'Something wrong. Try later',
+              (error as Error).message ||
+                'Что-то пошло не так. Попробуйте позже',
               {
                 variant: 'error',
               },
@@ -93,12 +94,12 @@ export const SignInForm: React.FC<SignInFormProps> = ({
 
       switch (name) {
         case 'username':
-          label = 'Username'
-          placeholder = 'Enter username'
+          label = 'Логин'
+          placeholder = 'Введите логин'
           break
         case 'password':
-          label = 'Password'
-          placeholder = 'Enter password'
+          label = 'Пароль'
+          placeholder = 'Введите пароль'
           type = 'password'
           break
       }
@@ -137,7 +138,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
           />
 
           <Button type="submit" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? 'Вход...' : 'Войти'}
           </Button>
         </AuthFormFooterStyled>
       </FormProvider>

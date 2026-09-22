@@ -73,7 +73,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
             })
           } catch (error) {
             addMessage?.(
-              (error as Error).message || 'Something wrong. Try later',
+              (error as Error).message ||
+                'Что-то пошло не так. Попробуйте позже',
               {
                 variant: 'error',
               },
@@ -99,27 +100,27 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 
       switch (name) {
         case 'fullname':
-          label = 'Full name'
-          placeholder = 'Enter full name'
+          label = 'Полное имя'
+          placeholder = 'Введите полное имя'
           break
         case 'username':
-          label = 'Username'
-          placeholder = 'Enter username'
+          label = 'Логин'
+          placeholder = 'Введите логин'
           break
         case 'email':
-          label = 'Email'
-          placeholder = 'Enter email'
+          label = 'Электронная почта'
+          placeholder = 'Введите адрес электронной почты'
           type = 'email'
           break
         case 'password':
-          label = 'Password'
-          placeholder = 'Enter password'
+          label = 'Пароль'
+          placeholder = 'Введите пароль'
           type = 'password'
           required = true
           break
         case 'referrerToken':
-          label = 'Invitation token'
-          placeholder = 'Enter invitation token'
+          label = 'Токен приглашения'
+          placeholder = 'Введите токен приглашения'
           break
       }
 
@@ -160,7 +161,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
           />
 
           <Button type="submit" disabled={loading}>
-            {loading ? 'Signing up...' : 'Sign up'}
+            {loading ? 'Регистрация...' : 'Зарегистрироваться'}
           </Button>
         </AuthFormFooterStyled>
       </FormProvider>

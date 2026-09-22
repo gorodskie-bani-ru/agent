@@ -19,7 +19,7 @@ builder.queryField('myConcepts', (t) =>
       return ctx.prisma.kBConcept.findMany({
         ...query,
         where: {
-          ...buildKBConceptWhere(args.where, ctx),
+          ...(await buildKBConceptWhere(args.where, ctx)),
           createdById: ctx.currentUser.id,
         },
         skip: args.skip ?? undefined,

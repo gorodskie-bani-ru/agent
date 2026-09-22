@@ -116,17 +116,62 @@ export async function processResource(
     let type: Prisma.KBConceptCreateInput['type']
 
     //  template === 26 ? CustomKbConceptType.City.value
+    // export const CustomKbConceptType = {
+    //   City: {
+    //     value: 'city:default',
+    //     description: 'Город',
+    //   },
+    //   Company: {
+    //     value: 'company:default',
+    //     description: 'Компания',
+    //   },
+    //   ResourceDefault: {
+    //     value: 'resource:default',
+    //     description: 'Веб-страница',
+    //   },
+    //   ReviewCompany: {
+    //     value: 'review:company',
+    //     description: 'Отзыв о компании',
+    //   },
+    //   BlogDefault: {
+    //     value: 'blog:default',
+    //     description: 'Публичный блог',
+    //   },
+    //   BlogPersonal: {
+    //     value: 'blog:personal',
+    //     description: 'Персональный блог',
+    //   },
+    //   TopicDefault: {
+    //     value: 'topic:default',
+    //     description: 'Публикация',
+    //   },
+    // } as const satisfies EnumValueConfigMap<SchemaTypes>
 
     switch (template) {
+      case 1:
+        type = CustomKbConceptType.ResourceDefault.value
+        break
+      case 14:
+        type = CustomKbConceptType.BlogDefault.value
+        break
+      case 16:
+        type = CustomKbConceptType.BlogPersonal.value
+        break
+      case 15:
+        type = CustomKbConceptType.TopicDefault.value
+        break
       case 26:
         type = CustomKbConceptType.City.value
         break
       case 27:
         type = CustomKbConceptType.Company.value
         break
+      case 28:
+        type = CustomKbConceptType.ReviewCompany.value
+        break
 
       default:
-        type = undefined
+        type = `resource:byTemplate:${template || 0}`
     }
 
     const data: Prisma.KBConceptCreateInput = {

@@ -8,6 +8,8 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <link rel="icon" href="/favicon-120.png" type="image/png" />
+
           {/* Google Font: Nunito */}
           <link
             href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"

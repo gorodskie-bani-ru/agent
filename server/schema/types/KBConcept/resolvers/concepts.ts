@@ -17,14 +17,14 @@ export const conceptsResolverArgs = (
 
 type ConceptsArgs = InferArgs<ReturnType<typeof conceptsResolverArgs>>
 
-export const conceptsResolver = (
+export const conceptsResolver = async (
   query: { include?: Prisma.KBConceptInclude; select?: Prisma.KBConceptSelect },
   root: unknown,
   args: ConceptsArgs,
   ctx: PrismaContext,
   info: GraphQLResolveInfo,
 ) => {
-  const where = buildKBConceptWhere(args.where, ctx)
+  const where = await buildKBConceptWhere(args.where, ctx)
 
   if (
     typeof root === 'object' &&

@@ -37,7 +37,7 @@ const ChatContext = createContext<ChatContextValue | null>(null)
 export const useChatContext = () => {
   const context = useContext(ChatContext)
   if (!context) {
-    throw new Error('useChatContext must be used within ChatProvider')
+    throw new Error('useChatContext должен использоваться внутри ChatProvider')
   }
   return context
 }
@@ -51,9 +51,9 @@ type ChatProviderProps = {
 
 export const ChatProvider: React.FC<ChatProviderProps> = ({
   children,
-  welcomeTitle = 'Hi! How can I help?',
-  welcomeText = 'Ask me anything',
-  placeholder = 'Type your message...',
+  welcomeTitle = 'Здравствуйте! Чем я могу помочь?',
+  welcomeText = 'Задайте мне любой вопрос',
+  placeholder = 'Напишите сообщение...',
 }) => {
   const snackbar = useSnackbar()
   const [isOpen, setIsOpen] = useState(false)
@@ -201,7 +201,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
                       msg.id === streamingMessageIdRef.current
                         ? {
                             ...msg,
-                            text: 'Sorry, something went wrong. Please try again.',
+                            text: 'Что-то пошло не так. Попробуйте ещё раз.',
                           }
                         : msg,
                     ),
@@ -211,7 +211,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
                     ...prev,
                     {
                       id: Date.now().toString(),
-                      text: 'Sorry, something went wrong. Please try again.',
+                      text: 'Что-то пошло не так. Попробуйте ещё раз.',
                       isUser: false,
                     },
                   ])
@@ -227,7 +227,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
         )
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : 'Unknown error'
+          error instanceof Error ? error.message : 'Неизвестная ошибка'
         snackbar?.addMessage(errorMessage, { variant: 'error' })
         setIsLoading(false)
         clearTypingTimer()

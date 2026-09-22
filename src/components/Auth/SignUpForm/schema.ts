@@ -15,16 +15,16 @@ export const signUpSchema: yup.ObjectSchema<SignUpFormData> = yup
       .string()
       .test(
         'username-format',
-        'Username can only contain letters, numbers and underscores',
+        'Логин может содержать только латинские буквы, цифры и подчёркивания',
         (value) => !value || /^[a-zA-Z0-9_]+$/.test(value),
       ),
-    email: yup.string().email('Invalid email format'),
+    email: yup.string().email('Неверный формат адреса электронной почты'),
     password: yup
       .string()
-      .required('Password is required')
+      .required('Укажите пароль')
       .test(
         'password-strength',
-        'Password must be at least 8 characters and contain a lowercase letter, uppercase letter, and number',
+        'Пароль должен содержать не менее 8 символов, строчную и заглавную латинские буквы и цифру',
         (value) =>
           !!value &&
           value.length >= 8 &&

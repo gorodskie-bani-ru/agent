@@ -39,7 +39,7 @@ export const MetaMaskAuth: React.FC<MetaMaskAuthProps> = ({
 
   const handleConnect = useCallback(async () => {
     if (!window.ethereum?.isMetaMask) {
-      addMessage?.('MetaMask is not installed', { variant: 'error' })
+      addMessage?.('MetaMask не установлен', { variant: 'error' })
       return
     }
 
@@ -51,7 +51,7 @@ export const MetaMaskAuth: React.FC<MetaMaskAuthProps> = ({
       })) as string[]
 
       if (!accounts || accounts.length === 0) {
-        throw new Error('No accounts found')
+        throw new Error('Аккаунты не найдены')
       }
 
       const address = accounts[0]
@@ -61,7 +61,7 @@ export const MetaMaskAuth: React.FC<MetaMaskAuthProps> = ({
       const message = nonceResult.data?.ethAccountNonce?.message
 
       if (!nonce || !message) {
-        throw new Error('Failed to get nonce')
+        throw new Error('Не удалось получить одноразовый код')
       }
 
       const signature = (await window.ethereum.request({
@@ -80,11 +80,11 @@ export const MetaMaskAuth: React.FC<MetaMaskAuthProps> = ({
         onSuccess?.()
       } else {
         throw new Error(
-          authResult.data?.response?.message || 'Authentication failed',
+          authResult.data?.response?.message || 'Не удалось войти',
         )
       }
     } catch (error) {
-      addMessage?.((error as Error).message || 'Something went wrong', {
+      addMessage?.((error as Error).message || 'Что-то пошло не так', {
         variant: 'error',
       })
     } finally {
@@ -100,7 +100,7 @@ export const MetaMaskAuth: React.FC<MetaMaskAuthProps> = ({
         disabled={loading}
         variant={ComponentVariant.SECONDARY}
       >
-        {loading ? 'Connecting...' : 'Connect with MetaMask'}
+        {loading ? 'Подключение...' : 'Подключить MetaMask'}
       </Button>
     </MetaMaskAuthStyled>
   )

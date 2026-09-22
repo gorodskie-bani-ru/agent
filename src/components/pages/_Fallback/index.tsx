@@ -1,7 +1,7 @@
 import { Page, PageProps } from 'src/components/pages/_App/interfaces'
 import { preloadConcept } from 'src/components/pages/Concepts/Concept/getInitialProps'
 
-import { ConceptPage } from 'src/components/pages/Concepts/Concept'
+import { ConceptPageCustom as ConceptPage } from 'src/Custom/pages/Concepts/Concept'
 
 type SiteRouterPageProps = PageProps & {
   uri: string | undefined

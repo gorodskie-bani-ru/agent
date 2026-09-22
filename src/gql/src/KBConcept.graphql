@@ -116,6 +116,8 @@ fragment KBConceptNoNesting on KBConcept {
   quality
   visibility
   data
+  lat
+  lng
   content @include(if: $detailedInfo)
 }
 

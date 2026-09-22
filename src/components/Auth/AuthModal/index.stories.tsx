@@ -17,14 +17,14 @@ function Renderer({ isOpen: isOpenInitial = true }: Props) {
 
   return (
     <>
-      <button onClick={handleOpen}>Open Auth Modal</button>
+      <button onClick={handleOpen}>Открыть окно входа</button>
       <Component isOpen={isOpen} onClose={handleClose} />
     </>
   )
 }
 
 const meta = {
-  title: 'Components/Auth/AuthModal',
+  title: 'Компоненты/Авторизация/Окно входа',
   component: Renderer,
 } satisfies Meta<typeof Renderer>
 

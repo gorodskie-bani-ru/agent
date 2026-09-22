@@ -1,5 +1,6 @@
 import { builder } from '../../builder'
 import { SortOrder } from '../common'
+import { CoordsInput } from '../Custom/Coords'
 import { StringNullableFilter } from '../inputs'
 import { KBConceptVisibilityEnum } from './types'
 
@@ -26,6 +27,9 @@ export const KBConceptWhereUniqueInput = builder.inputType(
 
 export const KBConceptWhereInput = builder.inputType('KBConceptWhereInput', {
   fields: (t) => ({
+    coords: t.field({
+      type: CoordsInput,
+    }),
     ids: t.stringList({
       deprecationReason: 'Use id instead',
     }),

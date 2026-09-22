@@ -6,7 +6,7 @@ import { RequestType } from '.storybook/addons/msw/msw-adapter'
 type Props = Parameters<typeof Component>[0]
 
 const meta = {
-  title: 'Components/Auth/SignInForm',
+  title: 'Компоненты/Авторизация/Форма входа',
   component: Component,
   parameters: {
     appContext: {
@@ -31,7 +31,7 @@ export const Default: Story = {
               response: {
                 __typename: 'AuthPayload',
                 success: true,
-                message: 'Login successful',
+                message: 'Вход выполнен',
                 token: 'mock-jwt-token-12345',
               },
             },
@@ -60,7 +60,7 @@ export const InvalidCredentials: Story = {
               response: {
                 __typename: 'AuthPayload',
                 success: false,
-                message: 'Invalid username or password',
+                message: 'Неверный логин или пароль',
                 token: null,
               },
             },

@@ -9,7 +9,7 @@ builder.queryField('kBConceptsCount', (t) =>
     },
     resolve: async (_root, args, ctx) => {
       return await ctx.prisma.kBConcept.count({
-        where: buildKBConceptWhere(args.where, ctx),
+        where: await buildKBConceptWhere(args.where, ctx),
       })
     },
   }),

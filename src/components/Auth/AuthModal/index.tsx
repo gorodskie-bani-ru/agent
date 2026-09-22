@@ -27,7 +27,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     setMode('signIn')
   }, [onClose])
 
-  const title = mode === 'signIn' ? 'Sign In' : 'Sign Up'
+  const title = mode === 'signIn' ? 'Войти' : 'Зарегистрироваться'
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
@@ -35,9 +35,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <>
           <SignInForm onSuccessHandler={handleSuccess} />
           <AuthModalFooter>
-            Don&apos;t have an account?{' '}
+            Нет аккаунта?{' '}
             <AuthModalLink type="button" onClick={handleSwitchToSignUp}>
-              Sign Up
+              Зарегистрироваться
             </AuthModalLink>
           </AuthModalFooter>
         </>
@@ -45,9 +45,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <>
           <SignUpForm onSuccessHandler={handleSuccess} />
           <AuthModalFooter>
-            Already have an account?{' '}
+            Уже есть аккаунт?{' '}
             <AuthModalLink type="button" onClick={handleSwitchToSignIn}>
-              Sign In
+              Войти
             </AuthModalLink>
           </AuthModalFooter>
         </>
