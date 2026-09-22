@@ -200,7 +200,10 @@ function createApolloClient({ withWs, appContext }: createApolloClientProps) {
   const authMiddleware = new ApolloLink((operation, forward) => {
     operation.setContext(({ headers }: { headers?: IncomingHttpHeaders }) => {
       if (!headers && appContext?.ctx.req?.headers) {
-        headers = { ...appContext?.ctx.req?.headers }
+        headers = {
+          ...appContext?.ctx.req?.headers,
+          accept: 'application/json',
+        }
       }
 
       const token =

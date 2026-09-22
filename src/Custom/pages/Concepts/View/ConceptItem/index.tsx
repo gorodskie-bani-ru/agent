@@ -4,15 +4,16 @@ import {
   ConceptItemMetaStyled,
   ConceptItemTitleStyled,
   ConceptItemDescriptionStyled,
-  ConceptItemTypeStyled,
+  // ConceptItemTypeStyled,
 } from './styles'
 import { FormattedDate } from 'src/ui-kit/format/FormattedDate'
 import { Markdown } from 'src/components/Markdown'
 import { ConceptItemVariant } from './interfaces'
 import { UserLink } from 'src/components/Link/User'
 import { ConceptLink } from 'src/components/Link/Concept'
-import { isCity } from 'src/Custom/interfaces'
+import { isCity, isCompany } from 'src/Custom/interfaces'
 import { CityConceptItem } from './CityConceptItem'
+import { CompanyConceptItem } from './CompanyConceptItem'
 
 type ConceptItemProps = {
   concept: KbConceptFragment
@@ -24,7 +25,7 @@ export const ConceptItemCustom: React.FC<ConceptItemProps> = ({
   variant,
   ...other
 }) => {
-  const { id, name, description, type, content, CreatedBy } = concept
+  const { id, name, description, content, CreatedBy } = concept
 
   let contentBlock: React.ReactNode | null
 
@@ -33,6 +34,8 @@ export const ConceptItemCustom: React.FC<ConceptItemProps> = ({
       {
         if (isCity(concept)) {
           return <CityConceptItem concept={concept} />
+        } else if (isCompany(concept)) {
+          return <CompanyConceptItem concept={concept} />
         }
 
         contentBlock = <>{content && <Markdown>{content}</Markdown>}</>
@@ -49,7 +52,7 @@ export const ConceptItemCustom: React.FC<ConceptItemProps> = ({
         <ConceptItemTitleStyled>{name || id}</ConceptItemTitleStyled>
       </ConceptLink>
 
-      {type && <ConceptItemTypeStyled>{type}</ConceptItemTypeStyled>}
+      {/* {type && <ConceptItemTypeStyled>{type}</ConceptItemTypeStyled>} */}
 
       {description && (
         <ConceptItemDescriptionStyled>

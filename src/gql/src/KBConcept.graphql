@@ -126,4 +126,10 @@ fragment KBConcept_ on KBConcept {
   CreatedBy {
     ...UserNoNesting
   }
+  Files {
+    id
+    File {
+      ...FileNoNesting
+    }
+  }
 }

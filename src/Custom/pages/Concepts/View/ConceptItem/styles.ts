@@ -39,26 +39,28 @@ export const ConceptItemStyled = styled.div<ConceptItemStyledProps>`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: #ffffff;
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
   transition:
     box-shadow 0.2s,
     transform 0.2s;
 
   min-width: 0;
 
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-  }
-
   ${({ $variant }) => {
     switch ($variant) {
       case 'list':
-        return css``
+        return css`
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+          &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+          }
+        `
 
       case 'full':
         return css`

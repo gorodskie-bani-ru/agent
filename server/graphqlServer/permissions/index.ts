@@ -50,6 +50,7 @@ const ruleTree = {
     // file: isSudo,
     // files: isSudo,
     // filesCount: isSudo,
+    redirectRules: isSudo,
   },
   Mutation: {
     // Example: require authentication for specific mutations
@@ -77,9 +78,11 @@ const ruleTree = {
     createReaction: isActive,
     createReflex: isActive,
     deleteConcept: isActive,
+    validateConcepts: isActive,
     llmCompletion: isActive,
     llmChatCompletion: isActive,
     llmImageGeneration: isActive,
+    llmSpeechGeneration: isActive,
     signPost: isActive,
     world3dObjectCreate: isActive,
     sendMail: isSudo,
