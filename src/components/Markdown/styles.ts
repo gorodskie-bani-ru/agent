@@ -75,6 +75,7 @@ export const markdownStyles = css`
     background: none;
     padding: 0;
     font-size: 0.95em;
+    white-space: pre-wrap;
   }
 
   /* Links */

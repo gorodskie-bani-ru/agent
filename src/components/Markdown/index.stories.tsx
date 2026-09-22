@@ -218,6 +218,29 @@ function hello() {
 LLAMA_MODEL=unsloth/Qwen3.5-4B-GGUF/Qwen3.5-4B-Q8_0.gguf
 LLAMA_MMPROJ=unsloth/Qwen3.5-4B-GGUF/mmproj-F16.gguf
 \`\`\`
+
+\`\`\`ts
+const jsxComponentDescriptors = useMemo<JsxComponentDescriptor[]>(() => {
+  return [
+    {
+      name: 'files-uploader looooooong loooooooooooooooong loooooooooooooooooooooong text',
+      kind: 'flow',
+      props: [],
+      hasChildren: true,
+      Editor: FilesUploaderEditor,
+    },
+    {
+      name: 'file',
+      kind: 'text',
+      props: [{ name: 'data-id', type: 'string' }],
+      hasChildren: true,
+      Editor: () => null,
+    },
+  ]
+}, [])
+\`\`\`
+
+
 `,
   },
 }
