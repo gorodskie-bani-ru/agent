@@ -1,1 +1,1 @@
-export { UsersPage as default } from 'src/components/pages/Users'
+export { UsersPageCustom as default } from 'src/Custom/pages/Users'

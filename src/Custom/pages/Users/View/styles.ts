@@ -1,0 +1,18 @@
+import styled from 'styled-components'
+
+export const UsersViewStyled = styled.div``
+
+export const UsersViewGridStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+`
+
+export const UsersViewCardStyled = styled.div`
+  padding: ${({ theme }) => theme.spacing.md};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`

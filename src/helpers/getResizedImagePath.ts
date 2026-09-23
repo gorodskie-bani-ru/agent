@@ -5,6 +5,9 @@ export type ImageSize =
   | 'middle'
   | 'big'
   | 'origin'
+  | 'slider_thumb'
+  | 'slider_dot_thumb'
+  | 'marker_thumb'
 
 type GetResizedImagePathParams = {
   path: string

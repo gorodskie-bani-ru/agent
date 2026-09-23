@@ -27,6 +27,7 @@ const sections: FooterSection[] = [
       // { to: '/', label: 'Каталог' },
       { to: '/map', label: 'Карта' },
       // { to: '/ratings', label: 'Рейтинги' },
+      { to: '/people', label: 'Участники' },
       { to: '/bani-otzivy', label: 'Отзывы' },
     ],
   },

@@ -17,9 +17,16 @@ const UserIcon: React.FC = () => (
 )
 
 export function createUserLink(user: UserNoNestingFragment): string {
-  const { id } = user
+  const { id, username } = user
 
-  return `/users/${id}`
+  if (username) {
+    return `/profile/${username}`
+  }
+
+  // else
+  // return `/users/${id}`
+
+  return `/profile/${id}`
 }
 
 type UserLinkProps = {

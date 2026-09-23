@@ -92,9 +92,9 @@ export async function processUser(userId: string, ctx: PrismaContext) {
       status: approved ? 'active' : 'newbie',
       username,
       image: (photo
-        ? `/assets/society/uploads/images/${photo}`
+        ? `assets/society/uploads/images/${photo}`
         : uaPhoto
-          ? `/assets/images/${uaPhoto}`
+          ? `assets/images/${uaPhoto}`
           : undefined
       )?.replaceAll(/\/{2,}/g, '/'),
     }

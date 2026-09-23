@@ -83,6 +83,7 @@ async function startServer() {
 
   // Image resizer
   server.use('/images/', imageResizerMiddleware)
+  server.use('/assets/', imageResizerMiddleware)
 
   // Static files from shared (uploads, not tracked)
   server.use(express.static(cwd + '/shared'))
