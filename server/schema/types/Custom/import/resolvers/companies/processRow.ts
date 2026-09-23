@@ -2,6 +2,12 @@ import { PrismaContext } from 'server/context/interfaces'
 import { Company, CompanyFile } from '../../types'
 import { Prisma } from '@prisma/client'
 import { CustomKbConceptType } from 'src/Custom/interfaces'
+import {
+  companiesQueryWithData,
+  CompaniesQueryWithDataResult,
+} from './helpers/companiesQueryWithData'
+import { MigxFile } from './interfaces'
+import { createFile } from '../../helpers/createFile'
 
 export async function processCompany(companyId: string, ctx: PrismaContext) {
   const { knex, prisma } = ctx
@@ -60,6 +66,14 @@ export async function processCompany(companyId: string, ctx: PrismaContext) {
       return
     }
 
+    const companyDataQuery = companiesQueryWithData
+      .call(knex)
+      .where('company.id', companyId)
+      .first()
+
+    const companyData: CompaniesQueryWithDataResult | null =
+      await companyDataQuery
+
     const visibility: Prisma.KBConceptCreateInput['visibility'] =
       processed && status === 'active'
         ? 'public'
@@ -72,26 +86,25 @@ export async function processCompany(companyId: string, ctx: PrismaContext) {
       .where('companyId', companyId)
       .orderBy('rank')
 
-    let KBConceptFiles:
-      | Prisma.KBConceptCreateInput['KBConceptFiles']
-      | undefined
+    const KBConceptFilesCreate: Prisma.KBConceptFileCreateManyKBConceptInput[] =
+      []
 
     if (CompanyFiles.length) {
-      const filesData: Prisma.KBConceptFileCreateManyKBConceptInput[] = []
+      // const filesData: Prisma.KBConceptFileCreateManyKBConceptInput[] = []
 
       CompanyFiles.forEach((n) => {
-        filesData.push({
+        KBConceptFilesCreate.push({
           fileId: n.fileId,
           createdById: createdBy,
         })
       })
 
-      KBConceptFiles = {
-        createMany: {
-          skipDuplicates: true,
-          data: filesData,
-        },
-      }
+      // KBConceptFiles = {
+      //   createMany: {
+      //     skipDuplicates: true,
+      //     data: filesData,
+      //   },
+      // }
     }
 
     let image = companyImage
@@ -107,6 +120,37 @@ export async function processCompany(companyId: string, ctx: PrismaContext) {
 
       if (file) {
         image = file.path
+      }
+    }
+
+    if (companyData) {
+      if (companyData.resource_gallery) {
+        try {
+          const json: MigxFile[] | null = JSON.parse(
+            companyData.resource_gallery,
+          )
+
+          if (json) {
+            for await (const f of json) {
+              await createFile(f, createdBy, ctx)
+                .then((file) => {
+                  if (file) {
+                    KBConceptFilesCreate.push({
+                      fileId: file.id,
+                      createdById: createdBy,
+                    })
+
+                    if (!image) {
+                      image = file.path
+                    }
+                  }
+                })
+                .catch(console.error)
+            }
+          }
+        } catch (error) {
+          console.error(error)
+        }
       }
     }
 
@@ -139,7 +183,14 @@ export async function processCompany(companyId: string, ctx: PrismaContext) {
           id: createdBy,
         },
       },
-      KBConceptFiles,
+      KBConceptFiles: {
+        createMany: KBConceptFilesCreate.length
+          ? {
+              data: KBConceptFilesCreate,
+              skipDuplicates: true,
+            }
+          : undefined,
+      },
     }
 
     await prisma.kBConcept.create({

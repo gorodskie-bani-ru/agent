@@ -18,6 +18,7 @@ builder.mutationField('importResources', (t) =>
       const query = knex
         .from<bani684_site_content>('bani684_site_content as t')
         .select('id')
+      // .where('uri', 'topics/usachevskie-bani-otkryilis!-1721.html')
 
       const count = (await query.clone().count('* as count').first()).count
 
@@ -37,8 +38,10 @@ builder.mutationField('importResources', (t) =>
 
       for await (const row of rows) {
         await processResource(row.id, ctx)
-          .then(() => {
+          .then((r) => {
             success++
+
+            return r
           })
           .catch((error) => {
             errors.push({

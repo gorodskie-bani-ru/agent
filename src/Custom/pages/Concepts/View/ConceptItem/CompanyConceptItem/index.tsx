@@ -1,6 +1,8 @@
-/* eslint-disable no-console */
+import { Markdown } from 'src/components/Markdown'
 import { Company } from 'src/Custom/interfaces'
-import { getResizedImagePath } from 'src/helpers/getResizedImagePath'
+import { CompanyConceptItemStyled } from './styles'
+import { CompanyMap } from 'src/Custom/components/CompanyMap'
+import { ConceptGallery } from 'src/Custom/components/Gallery'
 
 type CompanyConceptItemProps = {
   concept: Company
@@ -9,20 +11,22 @@ type CompanyConceptItemProps = {
 export const CompanyConceptItem: React.FC<CompanyConceptItemProps> = ({
   concept,
 }) => {
-  console.log('concept', concept)
+  const { name, content } = concept
 
-  const { name, content, image } = concept
+  return (
+    <CompanyConceptItemStyled>
+      <header className="company-heading">
+        <p className="company-eyebrow">Городские бани · Каталог заведений</p>
+        <h1>{name}</h1>
+      </header>
+      <ConceptGallery key={concept.id} concept={concept} />
+      {content && (
+        <section className="company-description" aria-label="О заведении">
+          <Markdown>{content}</Markdown>
+        </section>
+      )}
 
-  const imageSrc = image
-    ? getResizedImagePath({
-        path: image,
-        size: 'middle',
-      })
-    : undefined
-
-  name
-  content
-  imageSrc
-
-  return <></>
+      <CompanyMap company={concept} />
+    </CompanyConceptItemStyled>
+  )
 }

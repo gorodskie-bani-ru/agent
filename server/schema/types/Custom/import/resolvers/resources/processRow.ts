@@ -115,38 +115,6 @@ export async function processResource(
 
     let type: Prisma.KBConceptCreateInput['type']
 
-    //  template === 26 ? CustomKbConceptType.City.value
-    // export const CustomKbConceptType = {
-    //   City: {
-    //     value: 'city:default',
-    //     description: 'Город',
-    //   },
-    //   Company: {
-    //     value: 'company:default',
-    //     description: 'Компания',
-    //   },
-    //   ResourceDefault: {
-    //     value: 'resource:default',
-    //     description: 'Веб-страница',
-    //   },
-    //   ReviewCompany: {
-    //     value: 'review:company',
-    //     description: 'Отзыв о компании',
-    //   },
-    //   BlogDefault: {
-    //     value: 'blog:default',
-    //     description: 'Публичный блог',
-    //   },
-    //   BlogPersonal: {
-    //     value: 'blog:personal',
-    //     description: 'Персональный блог',
-    //   },
-    //   TopicDefault: {
-    //     value: 'topic:default',
-    //     description: 'Публикация',
-    //   },
-    // } as const satisfies EnumValueConfigMap<SchemaTypes>
-
     switch (template) {
       case 1:
         type = CustomKbConceptType.ResourceDefault.value
@@ -177,26 +145,12 @@ export async function processResource(
     const data: Prisma.KBConceptCreateInput = {
       id: resourceId,
       uri,
-      // alt,
       name: pagetitle,
       description: description || longtitle,
       intro: description,
       content,
       createdAt: createdon ? new Date(createdon * 1000) : undefined,
-      // // dataSource,
-      // image,
-      // lat,
-      // lng,
-      // // ownerId,
-      // // processed,
-      // visibility,
-      // // rating,
-      // // reviews,
-      // // status,
       type,
-      //   ? `company:${type.toLocaleLowerCase()}`
-      //   : CustomKbConceptType.Company.value,
-      // updatedAt,
 
       visibility,
 

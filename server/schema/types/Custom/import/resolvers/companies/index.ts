@@ -18,10 +18,9 @@ builder.mutationField('importCompanies', (t) =>
       const query = knex
         .from<{ id: Company['id'] }>('Company as c')
         .select('id')
+      // .where('c.id', 'cmbdyhu3w02440qqlgik24ohd')
 
       const count = (await query.clone().count('* as count').first()).count
-
-      // query.orderBy("")
 
       if (limit) {
         query.limit(limit)
@@ -37,8 +36,10 @@ builder.mutationField('importCompanies', (t) =>
 
       for await (const id of ids) {
         await processCompany(id, ctx)
-          .then(() => {
+          .then((r) => {
             success++
+
+            return r
           })
           .catch((error) => {
             errors.push({

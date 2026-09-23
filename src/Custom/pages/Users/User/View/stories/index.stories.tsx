@@ -16,7 +16,7 @@ import { mockCurrentUser, mockViewedUser } from '.storybook/mocks/user'
 type Props = Parameters<typeof Component>[0]
 
 const meta = {
-  title: 'pages/Users/User/View',
+  title: 'Custom/pages/Users/User/View',
   component: Component,
   argTypes: {},
 } satisfies Meta<Props>

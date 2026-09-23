@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useAppContext } from 'src/components/AppContext'
 import { Page, PageProps } from 'src/components/pages/_App/interfaces'
 import { getConceptsConnectionQueryVariables } from 'src/components/pages/Concepts/helpers'
@@ -34,6 +35,8 @@ export const CompaniesPage: Page<PageProps & { page: number }> = ({
   const response = useConceptsConnectionQuery({
     variables,
   })
+
+  console.log('response concepts', response.data?.concepts)
 
   return (
     <>

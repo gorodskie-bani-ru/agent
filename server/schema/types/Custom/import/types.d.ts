@@ -99,6 +99,8 @@ export type bani684_site_content = {
 
 export type Resource = bani684_site_content
 
+export type ResourceInterface = bani684_site_content
+
 export type User = {
   id: string
   username: string | null
