@@ -32,7 +32,7 @@ type ChatContextValue = {
   initialMessageSetter: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ChatContext = createContext<ChatContextValue | null>(null)
+export const ChatContext = createContext<ChatContextValue | null>(null)
 
 export const useChatContext = () => {
   const context = useContext(ChatContext)

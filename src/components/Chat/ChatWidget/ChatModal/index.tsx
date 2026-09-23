@@ -8,7 +8,7 @@ import {
   ExpandButton,
   CloseButton,
 } from '../styles'
-import { useStopPropagationScroll } from 'src/hooks/useStopPropagationScroll'
+// import { useStopPropagationScroll } from 'src/hooks/useStopPropagationScroll'
 
 export type ChatModalProps = {
   children: React.ReactNode
@@ -27,7 +27,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
     e.stopPropagation()
   }, [])
 
-  const { containerRef } = useStopPropagationScroll()
+  // const { containerRef } = useStopPropagationScroll()
 
   const modalContent = (
     <ChatWindow
@@ -36,7 +36,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
       onMouseDown={stopPropagation}
       onTouchStart={stopPropagation}
       onTouchMove={stopPropagation}
-      ref={containerRef}
+      // ref={containerRef}
     >
       <ChatHeader>
         <ChatTitle>ИИ-помощник</ChatTitle>
