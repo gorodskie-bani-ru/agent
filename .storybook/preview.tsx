@@ -6,7 +6,6 @@ import { GlobalStyle } from '../src/theme/GlobalStyle'
 import { withAppContext } from './decorators/withAppContext'
 import { withMsw } from './addons/msw/msw-decorator'
 import { useApollo } from 'src/gql/apolloClient'
-import { ChatProvider } from 'src/components/Chat/ChatWidget/context'
 
 const WithProviders: Decorator = (Story) => {
   const apolloClient = useApollo(undefined, false)
@@ -16,9 +15,7 @@ const WithProviders: Decorator = (Story) => {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <ApolloProvider client={apolloClient}>
-          <ChatProvider>
-            <Story />
-          </ChatProvider>
+          <Story />
         </ApolloProvider>
       </ThemeProvider>
     </>
