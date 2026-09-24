@@ -10,9 +10,6 @@ export const GlobalStyle = createGlobalStyle`
     margin-top: 0;
     margin-bottom: 0;
 
-    &:focus {
-      outline: none;
-    }
   }
 
   html, body{
@@ -22,8 +19,25 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Nunito', Arial, sans-serif;
+    color: ${theme.colors.foreground};
+    background: ${theme.backgrounds.page};
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
     font-size: 16px;
+  }
+
+  :focus-visible {
+    outline: 3px solid #668a45;
+    outline-offset: 4px;
+  }
+
+  button, input, textarea, select { font: inherit; }
+  button { touch-action: manipulation; }
+  img { max-width: 100%; }
+  html { scroll-padding-top: 24px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
 
   #__next {

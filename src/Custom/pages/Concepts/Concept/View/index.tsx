@@ -1,9 +1,9 @@
 import { KbConceptFragment, MeUserFragment } from 'src/gql/generated'
-import { ConceptItemCustom } from '../../View/ConceptItem'
 import { useBoolean } from 'src/hooks/useBoolean'
 import { ConceptEditForm } from '../Form'
 import { Button } from 'src/ui-kit/Button'
 import { ConceptViewStyled } from './styles'
+import { ConceptItemCustom } from 'src/Custom/components/ConceptItem'
 
 type ConceptViewProps = {
   concept: KbConceptFragment

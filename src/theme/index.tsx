@@ -8,9 +8,9 @@ const breakpoints = {
 
 const colors = {
   // Primary colors
-  primary: '#3b82f6',
-  secondary: '#6b7280',
-  foreground: '#1f2937',
+  primary: '#173f2e',
+  secondary: '#68716a',
+  foreground: '#20372c',
   background: '#ffffff',
   muted: '#9ca3af',
 
@@ -26,16 +26,16 @@ const colors = {
 
   // Text
   text: {
-    primary: '#1f2937',
-    secondary: '#6b7280',
+    primary: '#20372c',
+    secondary: '#68716a',
     disabled: '#9ca3af',
     light: '#ffffff',
   },
   textMuted: '#9ca3af',
 
   // Borders and dividers
-  divider: '#e5e7eb',
-  border: '#e5e7eb',
+  divider: '#e2e4da',
+  border: '#e2e4da',
   borderHover: '#d1d5db',
 
   // Special
@@ -58,7 +58,7 @@ const colors = {
 } as const
 
 const backgrounds = {
-  page: '#f5f5f5',
+  page: '#faf9f5',
   paper: '#ffffff',
   elevated: '#ffffff',
   overlay: 'rgba(0, 0, 0, 0.5)',
@@ -95,7 +95,7 @@ export const theme = {
   shadows: {
     sm: '0 1px 2px rgba(0, 0, 0, 0.05)',
     md: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    focus: '0 0 0 3px rgba(37, 99, 235, 0.1)',
+    focus: '0 0 0 3px rgba(23, 63, 46, 0.18)',
   },
 
   transitions: {

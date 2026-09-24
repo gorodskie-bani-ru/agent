@@ -1,4 +1,4 @@
-import { City } from 'src/Custom/interfaces'
+import { City, isCompany } from 'src/Custom/interfaces'
 
 import * as ApolloReactHooks from '@apollo/client/react'
 import {
@@ -6,7 +6,10 @@ import {
   ConceptsQueryVariables,
   useConceptsConnectionQuery,
 } from 'src/gql/generated'
-import { ConceptItemCustom } from '..'
+import { MainPageViewCompanyGridStyled } from 'src/Custom/pages/MainPage/View/styles'
+import { useMemo } from 'react'
+import { CompanyCard } from 'src/Custom/pages/MainPage/View/CompanyCard'
+import { CustomLayoutSectionStyled } from 'src/Custom/Layout/styles'
 
 type getCompaniesVariablesProps = {
   lat: number | null | undefined
@@ -53,11 +56,20 @@ export const CityConceptItem: React.FC<CityConceptItemProps> = ({
     }),
   )
 
+  const companies = useMemo(
+    () => response.data?.concepts?.filter(isCompany) ?? [],
+    [response.data?.concepts],
+  )
+
   return (
     <>
-      {response.data?.concepts?.map((n) => {
-        return <ConceptItemCustom key={n.id} variant="list" concept={n} />
-      })}
+      <CustomLayoutSectionStyled>
+        <MainPageViewCompanyGridStyled>
+          {companies.map((company) => (
+            <CompanyCard key={company.id} company={company} />
+          ))}
+        </MainPageViewCompanyGridStyled>
+      </CustomLayoutSectionStyled>
     </>
   )
 }

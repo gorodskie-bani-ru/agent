@@ -1,7 +1,7 @@
 import { KbConceptFragment } from 'src/gql/generated'
 import { ConceptsViewListStyled, ConceptsViewStyled } from './styles'
-import { ConceptItemCustom } from './ConceptItem'
 import { Pagination } from 'src/components/Pagination'
+import { ConceptItemCustom } from 'src/Custom/components/ConceptItem'
 
 type ConceptsViewProps = {
   concepts: KbConceptFragment[]

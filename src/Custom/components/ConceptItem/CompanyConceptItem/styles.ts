@@ -20,7 +20,6 @@ export const CompanyConceptItemStyled = styled.article`
   .company-description {
     margin-top: 36px;
     padding: 28px 32px;
-    background: #fff;
     line-height: 1.75;
     overflow-wrap: anywhere;
   }

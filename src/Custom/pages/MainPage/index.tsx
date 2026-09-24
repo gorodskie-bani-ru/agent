@@ -63,13 +63,17 @@ export const MainPageCustom: Page<MainPageProps> = ({ siteOrigin, city }) => {
   return (
     <>
       <SeoHeaders
-        title="Городские и общественные бани"
-        description="Все Городские и общественные бани"
+        title="Городские бани — подбор бань с ИИ"
+        description="Найдите баню для вашего отдыха: ИИ-помощник подберёт заведения из каталога и найдёт информацию в интернете. Бани, фотографии и карта."
         canonical={'/'}
         siteOrigin={siteOrigin}
       />
 
-      <MainPageView companies={companies} />
+      <MainPageView
+        companies={companies}
+        loading={response.loading}
+        error={!!response.error}
+      />
     </>
   )
 }

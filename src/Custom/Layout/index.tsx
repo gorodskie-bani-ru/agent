@@ -12,8 +12,13 @@ export const CustomLayout: React.FC<LayoutV2Props> = ({ children }) => {
   return (
     <>
       <CustomLayoutStyled>
+        <a className="skip-link" href="#main-content">
+          К содержимому
+        </a>
         <Header />
-        <CustomLayoutMainStyled>{children}</CustomLayoutMainStyled>
+        <CustomLayoutMainStyled id="main-content" tabIndex={-1}>
+          {children}
+        </CustomLayoutMainStyled>
         <Footer />
       </CustomLayoutStyled>
       <ChatWidget />

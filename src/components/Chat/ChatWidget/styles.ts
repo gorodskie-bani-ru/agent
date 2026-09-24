@@ -336,20 +336,20 @@ export const ChatButton = styled.button<{ $isOpen?: boolean }>`
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #3b82f6;
+  background: ${({ theme }) => theme.colors.primary};
   border: none;
   cursor: pointer;
   display: ${({ $isOpen }) => ($isOpen ? 'none' : 'flex')};
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 12px rgba(23, 63, 46, 0.24);
   transition:
     transform 0.2s,
     box-shadow 0.2s;
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 6px 16px rgba(23, 63, 46, 0.32);
   }
 
   svg {

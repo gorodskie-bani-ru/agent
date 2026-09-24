@@ -27,6 +27,7 @@ export const ChatWidget: React.FC = () => {
       )}
 
       <ChatButton
+        aria-label="Открыть ИИ-помощника"
         onClick={chat.handleToggle}
         $isOpen={chat.isOpen}
         type="button"

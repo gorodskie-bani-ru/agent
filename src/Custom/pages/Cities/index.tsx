@@ -61,12 +61,16 @@ export const CitiesPage: Page<PageProps & { page: number }> = ({
     <>
       <SeoHeaders
         title="Бани и сауны по городам"
-        description=""
+        description="Выберите город и найдите подходящую баню или сауну. Каталог заведений по городам и ИИ-помощник для поиска по вашим пожеланиям."
         siteOrigin={siteOrigin}
         canonical={'/city'}
       />
 
-      <CitiesPageView cities={cities} />
+      <CitiesPageView
+        cities={cities}
+        loading={response.loading}
+        error={!!response.error}
+      />
     </>
   )
 }

@@ -2,9 +2,7 @@ import Control from 'react-leaflet-custom-control'
 
 type ControlProps = Parameters<typeof Control>[0]
 
-interface MapControl extends ControlProps {}
-
-export const MapControl: React.FC<React.PropsWithChildren<MapControl>> = ({
+export const MapControl: React.FC<React.PropsWithChildren<ControlProps>> = ({
   children,
   ...other
 }) => {
