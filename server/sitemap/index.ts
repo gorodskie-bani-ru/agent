@@ -1,10 +1,17 @@
-import { UserStatus } from '@prisma/client'
+import {
+  KBConcept,
+  KBConceptVisibility,
+  Prisma,
+  UserStatus,
+} from '@prisma/client'
 import { Request, Response } from 'express'
 import { prismaClient } from 'server/prisma'
 import { buildPostWhere } from 'server/schema/types/Post/helpers/buildPostWhere'
 import { buildUserWhere } from 'server/schema/types/User/helpers/buildUserWhere'
+import { createConceptLink } from 'src/components/Link/Concept'
 
 export enum SitemapSection {
+  concepts = '/sitemap/concepts.xml',
   index = '/sitemap.xml',
   main = '/sitemap/main.xml',
   posts = '/sitemap/posts.xml',
@@ -53,12 +60,34 @@ export const generateSitemapIndex = async ({
         <loc>${siteOrigin}/sitemap/main.xml</loc>
     </sitemap>
     <sitemap>
-        <loc>${siteOrigin}${SitemapSection.posts}</loc>
-    </sitemap>
-    <sitemap>
-        <loc>${siteOrigin}${SitemapSection.users}</loc>
+        <loc>${siteOrigin}${SitemapSection.concepts}</loc>
     </sitemap>
 </sitemapindex>`
+}
+
+async function getKbConcepts(): Promise<UrlItem[]> {
+  const concepts = await prismaClient.$queryRaw<
+    Pick<KBConcept, 'id' | 'uri' | 'updatedAt'>[]
+  >`
+    SELECT id, uri, "updatedAt" FROM "KBConcept" 
+    WHERE visibility = ${Prisma.raw(`'${KBConceptVisibility.public}'`)} AND uri IS NOT NULL
+    ORDER BY "updatedAt" DESC
+  `
+
+  return concepts
+    .filter((n) => !!n.uri)
+    .map((n) => ({
+      updatedAt: new Date(n.updatedAt).toISOString(),
+      url: createConceptLink(n),
+    }))
+}
+
+const generateSitemapConcepts = async (
+  props: SitemapGeneratorProps,
+): Promise<string> => {
+  const xmlData: UrlItem[] = await getKbConcepts()
+
+  return generateSitemapXML(xmlData, props)
 }
 
 export const generateSitemapMain = async (
@@ -73,6 +102,18 @@ export const generateSitemapMain = async (
   const xmlData: UrlItem[] = [
     {
       url: `/`,
+      updatedAt: monday.toISOString().split('T')[0],
+    },
+    {
+      url: `/city`,
+      updatedAt: monday.toISOString().split('T')[0],
+    },
+    {
+      url: `/about`,
+      updatedAt: monday.toISOString().split('T')[0],
+    },
+    {
+      url: `/companies`,
       updatedAt: monday.toISOString().split('T')[0],
     },
   ]
@@ -148,6 +189,9 @@ export const generateSitemap = async (req: Request, res: Response) => {
   const siteOrigin = `${req.protocol}://${req.headers.host}`
 
   switch (req.url) {
+    case SitemapSection.concepts:
+      res.send(await generateSitemapConcepts({ siteOrigin }))
+      break
     case SitemapSection.index:
       res.send(await generateSitemapIndex({ siteOrigin }))
       break
