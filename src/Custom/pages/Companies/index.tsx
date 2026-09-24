@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useAppContext } from 'src/components/AppContext'
 import {
   NextPageContextCustom,
@@ -47,8 +46,6 @@ export const CompaniesPage: CompaniesPageProps = ({ siteOrigin, page }) => {
   const response = useConceptsConnectionQuery({
     variables,
   })
-
-  console.log('response concepts', response.data?.concepts)
 
   const companies = useMemo(
     () => response.data?.concepts?.filter(isCompany) ?? [],
