@@ -1,7 +1,14 @@
 /* eslint-disable no-console */
 import { useAppContext } from 'src/components/AppContext'
-import { Page, PageProps } from 'src/components/pages/_App/interfaces'
-import { getConceptsConnectionQueryVariables } from 'src/components/pages/Concepts/helpers'
+import {
+  NextPageContextCustom,
+  Page,
+  PageProps,
+} from 'src/components/pages/_App/interfaces'
+import {
+  getConceptsConnectionQueryVariables,
+  getConceptsConnectionQueryVariablesProps,
+} from 'src/components/pages/Concepts/helpers'
 import { ConceptsView } from 'src/components/pages/Concepts/View'
 import { SeoHeaders } from 'src/components/seo/SeoHeaders'
 import {
@@ -9,6 +16,7 @@ import {
   ConceptsConnectionQuery,
   ConceptsConnectionQueryVariables,
   ConceptsQueryVariables,
+  KbConceptFragment,
   useConceptsConnectionQuery,
 } from 'src/gql/generated'
 import { getCurrentUser } from 'src/helpers/getCurrentUser'
@@ -19,10 +27,9 @@ const where: ConceptsQueryVariables['where'] = {
   },
 }
 
-export const CompaniesPage: Page<PageProps & { page: number }> = ({
-  siteOrigin,
-  page,
-}) => {
+type CompaniesPageProps = Page<PageProps & { page: number }>
+
+export const CompaniesPage: CompaniesPageProps = ({ siteOrigin, page }) => {
   const { user: currentUser } = useAppContext()
 
   const variables = getConceptsConnectionQueryVariables({
@@ -56,7 +63,18 @@ export const CompaniesPage: Page<PageProps & { page: number }> = ({
   )
 }
 
-CompaniesPage.getInitialProps = async ({ query, apolloClient }) => {
+type getCompaniesProps = {
+  context: NextPageContextCustom
+  variables?: getConceptsConnectionQueryVariablesProps
+}
+
+export async function getCompanies({
+  context: { query, apolloClient },
+  variables,
+}: getCompaniesProps): Promise<{
+  concepts: KbConceptFragment[] | null | undefined
+  page: number
+}> {
   const pageParam = query.page
   const page =
     typeof pageParam === 'string' && parseInt(pageParam, 10) > 0
@@ -70,10 +88,17 @@ CompaniesPage.getInitialProps = async ({ query, apolloClient }) => {
       variables: getConceptsConnectionQueryVariables({
         page: page,
         currentUser: getCurrentUser(apolloClient),
-        where,
+        where: { ...where, ...variables?.where },
+        ...variables,
       }),
     })
     .then((r) => r.data?.concepts)
+
+  return { concepts, page }
+}
+
+CompaniesPage.getInitialProps = async (context) => {
+  const { concepts, page } = await getCompanies({ context })
 
   return {
     page,

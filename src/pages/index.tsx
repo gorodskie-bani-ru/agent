@@ -1,1 +1,1 @@
-export { MainPage as default } from 'src/components/pages/MainPage'
+export { MainPageCustom as default } from 'src/Custom/pages/MainPage'

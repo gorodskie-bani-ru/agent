@@ -56,6 +56,8 @@ export function isCompany(concept: KbConceptFragment): concept is Company {
 
 export type City = KbConceptFragment & {
   type: `city:${string}`
+  lat: number | null | undefined
+  lng: number | null | undefined
 }
 
 export function isCity(concept: KbConceptFragment): concept is City {

@@ -5,7 +5,7 @@ import {
   SortOrder,
 } from 'src/gql/generated'
 
-type getConceptsConnectionQueryVariablesProps =
+export type getConceptsConnectionQueryVariablesProps =
   Partial<ConceptsConnectionQueryVariables> & {
     page: number
     take?: number
