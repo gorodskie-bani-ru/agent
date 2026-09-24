@@ -1,8 +1,19 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { minWidth } from '../../../../theme/helpers/media-query'
 
 export const CompanyConceptItemStyled = styled.article`
+  padding: 24px 16px 40px;
+
+  ${minWidth.xs(css`
+    padding: 0;
+  `)}
+
   .company-heading {
-    margin-bottom: 28px;
+    margin-bottom: 20px;
+
+    ${minWidth.xs(css`
+      margin-bottom: 28px;
+    `)}
   }
   .company-eyebrow {
     margin: 0 0 12px;
@@ -18,10 +29,15 @@ export const CompanyConceptItemStyled = styled.article`
     overflow-wrap: anywhere;
   }
   .company-description {
-    margin-top: 36px;
-    padding: 28px 32px;
+    margin-top: 24px;
+    padding: 20px;
     line-height: 1.75;
     overflow-wrap: anywhere;
+
+    ${minWidth.xs(css`
+      margin-top: 36px;
+      padding: 28px 32px;
+    `)}
   }
   .company-description h2 {
     font-size: clamp(22px, 2.5vw, 28px);
@@ -30,15 +46,5 @@ export const CompanyConceptItemStyled = styled.article`
   .company-description img {
     max-width: 100%;
     height: auto;
-  }
-  @media (max-width: 600px) {
-    padding: 24px 16px 40px;
-    .company-heading {
-      margin-bottom: 20px;
-    }
-    .company-description {
-      margin-top: 24px;
-      padding: 20px;
-    }
   }
 `

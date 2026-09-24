@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { minWidth } from '../../../theme/helpers/media-query'
 import Link from 'next/link'
 
 export const BrandStyled = styled(Link)`
@@ -11,30 +12,31 @@ export const BrandStyled = styled(Link)`
     text-decoration: none;
   }
   svg {
-    width: 34px;
+    width: 27px;
     height: 42px;
     transform: rotate(-90deg);
   }
   strong {
     display: block;
     font:
-      26px/1.1 Georgia,
+      21px/1.1 Georgia,
       serif;
     font-weight: 400;
   }
+
+  ${minWidth.xs(css`
+    svg {
+      width: 34px;
+    }
+    strong {
+      font-size: 26px;
+    }
+  `)}
   small {
     display: block;
     margin-top: 5px;
     font-size: 11px;
     letter-spacing: 0.04em;
     color: ${({ theme }) => theme.colors.text.secondary};
-  }
-  @media (max-width: 480px) {
-    strong {
-      font-size: 21px;
-    }
-    svg {
-      width: 27px;
-    }
   }
 `

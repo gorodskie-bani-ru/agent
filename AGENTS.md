@@ -11,3 +11,4 @@
 - For example, a section inside `MainPageViewStyled` must be represented by `MainPageViewSectionStyled = styled.section` and rendered as `<MainPageViewSectionStyled>`.
 - Use these styled components as selectors (`${MainPageViewSectionStyled}`) when styling them from a parent or within responsive rules. Do not target key nodes through CSS class names or generic HTML tag selectors.
 - Keep each node's own styles in its styled component; use component selectors for contextual overrides and interactions between nodes. Preserve semantic HTML and existing behavior when refactoring.
+- Use mobile-first approach for responsive styles. Define base styles for mobile, then use `minWidth` helpers from `src/theme/helpers/media-query.ts` to add styles for larger screens. Never use `max-width` media queries.

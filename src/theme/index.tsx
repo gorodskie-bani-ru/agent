@@ -1,10 +1,10 @@
 const breakpoints = {
-  xs: 480,
-  sm: 768,
-  md: 992,
+  xs: 560,
+  sm: 800,
+  md: 1050,
   lg: 1200,
-  xl: 1920,
-}
+  xl: 1440,
+} as const
 
 const colors = {
   // Primary colors

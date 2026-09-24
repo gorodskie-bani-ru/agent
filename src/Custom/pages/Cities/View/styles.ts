@@ -1,9 +1,14 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { minWidth } from '../../../../theme/helpers/media-query'
 
 export const CitiesPageViewStyled = styled.div`
   max-width: 1328px;
   margin: auto;
-  padding: 28px 40px 64px;
+  padding: 24px 24px 44px;
+
+  ${minWidth.sm(css`
+    padding: 28px 40px 64px;
+  `)}
   .sr-only {
     position: absolute;
     width: 1px;
@@ -26,19 +31,34 @@ export const CitiesPageViewStyled = styled.div`
   }
   .cities-heading {
     display: grid;
-    grid-template-columns: 1fr 330px;
-    gap: 60px;
+    grid-template-columns: 1fr;
+    gap: 28px;
     align-items: center;
-    padding: 46px 0 40px;
+    padding: 32px 0 40px;
+
+    ${minWidth.sm(css`
+      padding: 46px 0 40px;
+      gap: 32px;
+      grid-template-columns: 1fr 300px;
+    `)}
+
+    ${minWidth.md(css`
+      gap: 60px;
+      grid-template-columns: 1fr 330px;
+    `)}
   }
   .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #627357;
+
+    ${minWidth.xs(css`
+      font-size: 11px;
+    `)}
   }
   h1,
   h2,
@@ -47,10 +67,14 @@ export const CitiesPageViewStyled = styled.div`
     font-weight: 400;
   }
   h1 {
-    font-size: clamp(42px, 4.8vw, 66px);
+    font-size: 42px;
     line-height: 1.08;
     letter-spacing: -0.045em;
     margin: 20px 0;
+
+    ${minWidth.xs(css`
+      font-size: clamp(42px, 4.8vw, 66px);
+    `)}
   }
   h1 em {
     color: #58724b;
@@ -99,15 +123,28 @@ export const CitiesPageViewStyled = styled.div`
   }
   .featured {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-    margin: 0 0 60px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 0 0 40px;
+
+    ${minWidth.xs(css`
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    `)}
+
+    ${minWidth.sm(css`
+      margin: 0 0 60px;
+    `)}
+
+    ${minWidth.md(css`
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    `)}
   }
   .featured a {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 22px 18px;
+    padding: 17px 18px;
     border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: 12px;
     background: #fff;
@@ -115,6 +152,10 @@ export const CitiesPageViewStyled = styled.div`
     transition:
       background 0.2s,
       border-color 0.2s;
+
+    ${minWidth.xs(css`
+      padding: 22px 18px;
+    `)}
   }
   .featured a:hover {
     text-decoration: none;
@@ -135,9 +176,16 @@ export const CitiesPageViewStyled = styled.div`
   }
   .directory-heading {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
     justify-content: space-between;
-    gap: 30px;
+    gap: 20px;
+
+    ${minWidth.sm(css`
+      align-items: center;
+      flex-direction: row;
+      gap: 30px;
+    `)}
   }
   .section-kicker {
     display: block;
@@ -148,11 +196,15 @@ export const CitiesPageViewStyled = styled.div`
     margin-bottom: 10px;
   }
   .directory h2 {
-    font-size: 36px;
+    font-size: 32px;
     letter-spacing: -0.025em;
     display: flex;
     align-items: center;
     gap: 14px;
+
+    ${minWidth.xs(css`
+      font-size: 36px;
+    `)}
   }
   .directory h2 > span {
     font:
@@ -171,8 +223,12 @@ export const CitiesPageViewStyled = styled.div`
     border-radius: 12px;
     background: white;
     padding: 8px 14px;
-    width: 360px;
+    width: 100%;
     color: #7a8375;
+
+    ${minWidth.sm(css`
+      width: 360px;
+    `)}
   }
   .search:focus-within {
     border-color: #668a45;
@@ -217,13 +273,18 @@ export const CitiesPageViewStyled = styled.div`
     border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   }
   .alphabet a {
-    width: 34px;
-    min-height: 36px;
+    width: 38px;
+    min-height: 40px;
     display: grid;
     place-items: center;
     font-size: 13px;
     border-radius: 7px;
     background: #edf0e6;
+
+    ${minWidth.xs(css`
+      width: 34px;
+      min-height: 36px;
+    `)}
   }
   .alphabet a:hover {
     color: white;
@@ -231,9 +292,27 @@ export const CitiesPageViewStyled = styled.div`
     text-decoration: none;
   }
   .city-groups {
-    columns: 4;
+    columns: 1;
     column-gap: 40px;
     padding-top: 32px;
+
+    ${minWidth.xs(css`
+      columns: 2;
+    `)}
+
+    ${minWidth.sm(css`
+      column-gap: 28px;
+    `)}
+
+    ${minWidth.md(css`
+      columns: 3;
+      column-gap: 28px;
+    `)}
+
+    ${minWidth.lg(css`
+      columns: 4;
+      column-gap: 40px;
+    `)}
   }
   .letter-group {
     break-inside: avoid;
@@ -255,14 +334,23 @@ export const CitiesPageViewStyled = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 9px 0;
-    font-size: 14px;
+    padding: 11px 0;
+    font-size: 15px;
     overflow-wrap: anywhere;
+
+    ${minWidth.xs(css`
+      padding: 9px 0;
+      font-size: 14px;
+    `)}
   }
   li a svg {
     color: #829079;
     flex-shrink: 0;
-    opacity: 0;
+    opacity: 1;
+
+    ${minWidth.xs(css`
+      opacity: 0;
+    `)}
   }
   li a:hover svg,
   li a:focus-visible svg {
@@ -287,14 +375,21 @@ export const CitiesPageViewStyled = styled.div`
   }
   .cities-bottom {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
     justify-content: space-between;
     gap: 28px;
-    padding: 32px;
+    padding: 26px;
     margin-top: 40px;
     background: #173f2e;
     border-radius: 18px;
     color: #faf9f5;
+
+    ${minWidth.sm(css`
+      align-items: center;
+      flex-direction: row;
+      padding: 32px;
+    `)}
   }
   .cities-bottom .section-kicker {
     color: #c2d3b3;
@@ -317,82 +412,11 @@ export const CitiesPageViewStyled = styled.div`
   .cities-bottom .ai-button:hover {
     background: #d8e5bc;
   }
-  @media (max-width: 1050px) {
-    .cities-heading {
-      gap: 32px;
-      grid-template-columns: 1fr 300px;
-    }
-    .featured {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .city-groups {
-      columns: 3;
-      column-gap: 28px;
-    }
-  }
-  @media (max-width: 800px) {
-    padding: 24px 24px 44px;
-    .cities-heading {
-      grid-template-columns: 1fr;
-      padding-top: 32px;
-      gap: 28px;
-    }
-    .ai-note {
-      max-width: none;
-    }
-    .desktop-break {
-      display: none;
-    }
-    .featured {
-      margin-bottom: 40px;
-    }
-    .directory-heading {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .search {
-      width: 100%;
-    }
-    .city-groups {
-      columns: 2;
-    }
-    .cities-bottom {
-      align-items: flex-start;
-      flex-direction: column;
-      padding: 26px;
-    }
-  }
-  @media (max-width: 480px) {
-    h1 {
-      font-size: 42px;
-    }
-    .eyebrow {
-      font-size: 10px;
-    }
-    .featured {
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-    .featured a {
-      padding: 17px 18px;
-    }
-    .city-groups {
-      columns: 1;
-    }
-    .directory h2 {
-      font-size: 32px;
-    }
-    li a {
-      padding: 11px 0;
-      font-size: 15px;
-    }
-    li a svg {
-      opacity: 1;
-    }
-    .alphabet a {
-      width: 38px;
-      min-height: 40px;
-    }
+  .desktop-break {
+    display: none;
+
+    ${minWidth.sm(css`
+      display: inline;
+    `)}
   }
 `

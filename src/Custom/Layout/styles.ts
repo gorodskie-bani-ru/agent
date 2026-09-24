@@ -1,15 +1,29 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { minWidth } from '../../theme/helpers/media-query'
 
 export const CustomLayoutSectionStyled = styled.section`
   max-width: 1328px;
-  padding: 64px 40px;
+  padding: 44px 24px;
   margin: auto;
+
+  ${minWidth.sm(css`
+    padding: 64px 40px;
+  `)}
 `
 
 export const CustomLayoutGridStyled = styled.section`
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 18px;
+
+  ${minWidth.xs(css`
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  `)}
+
+  ${minWidth.sm(css`
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  `)}
 `
 
 export const CustomLayoutMainStyled = styled.main`
@@ -53,22 +67,5 @@ export const CustomLayoutStyled = styled.div`
   }
   .skip-link:focus {
     top: 12px;
-  }
-
-  @media (max-width: 800px) {
-    ${CustomLayoutSectionStyled} {
-      padding: 44px 24px;
-    }
-
-    ${CustomLayoutGridStyled} {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-  }
-
-  @media (max-width: 560px) {
-    ${CustomLayoutGridStyled} {
-      grid-template-columns: 1fr;
-    }
   }
 `

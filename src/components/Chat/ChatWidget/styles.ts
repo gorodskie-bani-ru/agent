@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from 'styled-components'
+import { minWidth } from '../../../theme/helpers/media-query'
 
 const fadeIn = keyframes`
   from {
@@ -43,26 +44,26 @@ export const ChatContentContainer = styled.div<ChatContentContainerProps>`
           align-content: start;
         `
       : css`
-          grid-template-rows: 1fr auto 1fr;
-        `}
+          grid-template-rows: 1fr auto auto;
 
-  @media (max-width: 768px) {
-    grid-template-rows: ${({ $hasMessages }) =>
-      $hasMessages ? '1fr auto' : '1fr auto auto'};
-  }
+          @media (min-width: 768px) {
+            grid-template-rows: 1fr auto 1fr;
+          }
+        `}
 `
 
 export const ChatWindow = styled.div<{ $isExpanded?: boolean }>`
   position: fixed;
   z-index: 1000;
-  bottom: 20px;
-  right: 20px;
-  width: ${({ $isExpanded }) => ($isExpanded ? '100vw' : '380px')};
-  height: ${({ $isExpanded }) =>
-    $isExpanded ? '100%' : 'min(500px, calc(100dvh - 80px))'};
-  max-height: calc(100dvh - 80px);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  max-height: 100dvh;
+  border-radius: 0;
   background: #ffffff;
-  border-radius: ${({ $isExpanded }) => ($isExpanded ? '0' : '16px')};
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.15),
     0 0 0 1px rgba(0, 0, 0, 0.05);
@@ -71,27 +72,27 @@ export const ChatWindow = styled.div<{ $isExpanded?: boolean }>`
   overflow: hidden;
   animation: ${fadeIn} 0.2s ease-out;
 
-  ${({ $isExpanded }) =>
-    $isExpanded &&
-    css`
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      max-height: 100%;
-    `}
+  @media (min-width: 480px) {
+    top: auto;
+    left: auto;
+    bottom: 20px;
+    right: 20px;
+    width: ${({ $isExpanded }) => ($isExpanded ? '100vw' : '380px')};
+    height: ${({ $isExpanded }) =>
+      $isExpanded ? '100%' : 'min(500px, calc(100dvh - 80px))'};
+    max-height: calc(100dvh - 80px);
+    border-radius: ${({ $isExpanded }) => ($isExpanded ? '0' : '16px')};
 
-  @media (max-width: 480px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    max-height: 100dvh;
-    border-radius: 0;
+    ${({ $isExpanded }) =>
+      $isExpanded &&
+      css`
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-height: 100%;
+      `}
   }
 `
 
@@ -139,9 +140,11 @@ export const HeaderButton = styled.button`
 `
 
 export const ExpandButton = styled(HeaderButton)`
-  @media (max-width: 480px) {
-    display: none;
-  }
+  display: none;
+
+  ${minWidth.xs(css`
+    display: flex;
+  `)}
 `
 
 export const CloseButton = styled(HeaderButton)``

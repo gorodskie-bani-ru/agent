@@ -1,13 +1,21 @@
 import Link from 'next/link'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { minWidth } from '../../../theme/helpers/media-query'
 
 export const FooterMainStyled = styled.div`
   border-top: 1px solid ${({ theme }) => theme.colors.border};
   padding: 40px 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 36px;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 24px;
+
+  ${minWidth.sm(css`
+    align-items: center;
+    flex-direction: row;
+    gap: 36px;
+  `)}
 `
 
 export const FooterBrandBlockStyled = styled.div``
@@ -32,22 +40,35 @@ export const FooterNavigationLinkStyled = styled(Link)`
 `
 
 export const FooterNoteStyled = styled.p`
+  display: none;
   font:
     20px/1.4 Georgia,
     serif;
   color: ${({ theme }) => theme.colors.text.secondary};
+
+  ${minWidth.sm(css`
+    display: block;
+  `)}
 `
 
 export const FooterAuthorStyled = styled.section`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 36px;
-  padding: 32px 36px;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 24px;
+  padding: 26px;
   margin-bottom: 32px;
   background: #edf1e3;
   border: 1px solid #dce4d1;
   border-radius: 16px;
+
+  ${minWidth.sm(css`
+    align-items: center;
+    flex-direction: row;
+    gap: 36px;
+    padding: 32px 36px;
+  `)}
 `
 
 export const FooterAuthorCopyStyled = styled.div`
@@ -82,16 +103,21 @@ export const FooterAuthorDescriptionStyled = styled.p`
 export const FooterAuthorActionsStyled = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 14px;
+  align-items: flex-start;
+  gap: 10px;
   flex-shrink: 0;
+
+  ${minWidth.sm(css`
+    align-items: flex-end;
+    gap: 14px;
+  `)}
 `
 
 export const FooterSignatureStyled = styled.a`
   display: inline-block;
   padding: 2px 4px;
   font:
-    400 52px/1.1 Georgia,
+    400 46px/1.1 Georgia,
     'Times New Roman',
     serif;
   letter-spacing: -0.04em;
@@ -101,6 +127,10 @@ export const FooterSignatureStyled = styled.a`
     color: #577443;
     text-decoration: none;
   }
+
+  ${minWidth.sm(css`
+    font-size: 52px;
+  `)}
 `
 
 export const FooterProjectLinkStyled = styled.a`
@@ -122,10 +152,15 @@ export const FooterBottomStyled = styled.div`
   border-top: 1px solid ${({ theme }) => theme.colors.border};
   padding-top: 20px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 16px;
   font-size: 12px;
   color: ${({ theme }) => theme.colors.text.secondary};
+
+  ${minWidth.sm(css`
+    flex-direction: row;
+  `)}
 `
 
 export const FooterCopyrightStyled = styled.span``
@@ -135,32 +170,9 @@ export const FooterStyled = styled.footer`
   width: 100%;
   max-width: 1328px;
   margin: auto;
-  padding: 0 40px 28px;
-  @media (max-width: 800px) {
-    padding: 0 24px 90px;
-    ${FooterMainStyled} {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 24px;
-    }
-    ${FooterNoteStyled} {
-      display: none;
-    }
-    ${FooterBottomStyled} {
-      flex-direction: column;
-    }
-    ${FooterAuthorStyled} {
-      padding: 26px;
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 24px;
-    }
-    ${FooterAuthorActionsStyled} {
-      align-items: flex-start;
-      gap: 10px;
-    }
-    ${FooterSignatureStyled} {
-      font-size: 46px;
-    }
-  }
+  padding: 0 24px 90px;
+
+  ${minWidth.sm(css`
+    padding: 0 40px 28px;
+  `)}
 `

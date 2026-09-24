@@ -4,6 +4,7 @@ import {
   CustomLayoutSectionStyled,
 } from 'src/Custom/Layout/styles'
 import styled, { css } from 'styled-components'
+import { minWidth } from '../../../../theme/helpers/media-query'
 
 const aiButtonStyles = css`
   display: inline-flex;
@@ -30,14 +31,35 @@ export const MainPageViewHeroStyled = styled.section`
   max-width: 1440px;
   margin: auto;
   display: grid;
-  grid-template-columns: 56% 44%;
-  min-height: 620px;
+  grid-template-columns: 1fr;
+  min-height: auto;
+
+  ${minWidth.sm(css`
+    grid-template-columns: 56% 44%;
+    min-height: 590px;
+  `)}
+
+  ${minWidth.md(css`
+    min-height: 620px;
+  `)}
 `
 
 export const MainPageViewHeroCopyStyled = styled.div`
-  padding: 62px 0 52px max(40px, calc((100vw - 1248px) / 2));
+  padding: 36px 24px 28px;
   position: relative;
   z-index: 1;
+
+  ${minWidth.sm(css`
+    padding: 62px 0 52px max(40px, calc((100vw - 1248px) / 2));
+  `)}
+
+  ${minWidth.md(css`
+    padding-top: 44px;
+  `)}
+
+  ${minWidth.xl(css`
+    padding-left: 96px;
+  `)}
 `
 
 export const MainPageViewEyebrowStyled = styled.span`
@@ -56,10 +78,16 @@ export const MainPageViewHeroTitleStyled = styled.h1`
   font-weight: 400;
   letter-spacing: -0.045em;
 
-  font-size: clamp(44px, 4.6vw, 67px);
+  font-size: clamp(40px, 7.5vw, 60px);
   line-height: 1.03;
-  max-width: 640px;
-  margin: 24px 30px 22px 0;
+  max-width: 610px;
+  margin: 24px 0 22px 0;
+
+  ${minWidth.sm(css`
+    font-size: clamp(44px, 4.6vw, 67px);
+    max-width: 640px;
+    margin-right: 30px;
+  `)}
 `
 
 export const MainPageViewHeroEmphasisStyled = styled.em`
@@ -68,19 +96,26 @@ export const MainPageViewHeroEmphasisStyled = styled.em`
 `
 
 export const MainPageViewHeroDescriptionStyled = styled.p`
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.65;
-  max-width: 480px;
-  margin-right: 32px;
+  max-width: 580px;
+  margin-right: 0;
+
+  ${minWidth.sm(css`
+    font-size: 16px;
+    max-width: 480px;
+    margin-right: 32px;
+  `)}
 `
 
 export const MainPageViewPromptFormStyled = styled.form`
   margin-top: 30px;
   padding: 9px 9px 9px 20px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
-  width: calc(100% + 56px);
+  width: 100%;
   background: #fff;
   border: 1px solid #e6e6dd;
   border-radius: 13px;
@@ -90,6 +125,15 @@ export const MainPageViewPromptFormStyled = styled.form`
     color: #92998f;
     flex-shrink: 0;
   }
+
+  ${minWidth.sm(css`
+    flex-wrap: nowrap;
+    width: calc(100% + 56px);
+  `)}
+
+  ${minWidth.md(css`
+    width: calc(100% - 24px);
+  `)}
 `
 
 export const MainPageViewPromptLabelStyled = styled.label`
@@ -107,6 +151,7 @@ export const MainPageViewPromptLabelStyled = styled.label`
 export const MainPageViewPromptInputStyled = styled.input`
   min-width: 0;
   width: 100%;
+  flex: 1;
   border: 0;
   background: transparent;
   padding: 12px 0;
@@ -117,10 +162,21 @@ export const MainPageViewPromptInputStyled = styled.input`
     color: #757d76;
     opacity: 1;
   }
+
+  ${minWidth.sm(css`
+    flex: initial;
+  `)}
 `
 
 export const MainPageViewSubmitButtonStyled = styled.button`
   ${aiButtonStyles}
+  flex-shrink: 0;
+  min-height: 50px;
+  width: 100%;
+
+  ${minWidth.sm(css`
+    width: auto;
+  `)}
 `
 
 export const MainPageViewSuggestionsStyled = styled.div`
@@ -128,7 +184,11 @@ export const MainPageViewSuggestionsStyled = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 16px;
-  padding-right: 12px;
+  padding: 0;
+
+  ${minWidth.xs(css`
+    padding-right: 12px;
+  `)}
 `
 
 export const MainPageViewSuggestionButtonStyled = styled.button`
@@ -152,13 +212,20 @@ export const MainPageViewHeroHintStyled = styled.p`
   font-size: 11px;
   color: var(--muted);
   margin-top: 18px;
+  max-width: 280px;
+
+  ${minWidth.xs(css`
+    max-width: none;
+  `)}
 `
 
 export const MainPageViewHeroVisualStyled = styled.div`
   position: relative;
   min-width: 0;
   overflow: hidden;
-  border-radius: 180px 0 0 0;
+  height: 280px;
+  margin-left: 24px;
+  border-radius: 100px 0 0 0;
 
   &::after {
     content: '';
@@ -166,6 +233,16 @@ export const MainPageViewHeroVisualStyled = styled.div`
     inset: 60% 0 0;
     background: linear-gradient(transparent, #14231970);
   }
+
+  ${minWidth.xs(css`
+    height: 320px;
+  `)}
+
+  ${minWidth.sm(css`
+    height: auto;
+    margin-left: 0;
+    border-radius: 180px 0 0 0;
+  `)}
 `
 
 export const MainPageViewHeroImageStyled = styled.img`
@@ -179,8 +256,8 @@ export const MainPageViewHeroImageStyled = styled.img`
 
 export const MainPageViewSourceBadgeStyled = styled.div`
   position: absolute;
-  right: 32px;
-  bottom: 66px;
+  right: 24px;
+  bottom: 52px;
   display: flex;
   gap: 12px;
   align-items: center;
@@ -188,6 +265,11 @@ export const MainPageViewSourceBadgeStyled = styled.div`
   padding: 15px 20px;
   border-radius: 12px;
   z-index: 1;
+
+  ${minWidth.sm(css`
+    right: 32px;
+    bottom: 66px;
+  `)}
 `
 
 export const MainPageViewSourceContentStyled = styled.span``
@@ -209,21 +291,33 @@ export const MainPageViewSourceDescriptionStyled = styled.small`
 
 export const MainPageViewPhotoCaptionStyled = styled.span`
   position: absolute;
-  bottom: 26px;
-  right: 32px;
+  bottom: 20px;
+  right: 24px;
   z-index: 1;
   color: #fff;
   font-size: 12px;
+
+  ${minWidth.sm(css`
+    bottom: 26px;
+    right: 32px;
+  `)}
 `
 
 export const MainPageViewSectionStyled = styled(CustomLayoutSectionStyled)``
 
 export const MainPageViewSectionHeadingStyled = styled.div`
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
+  gap: 12px;
   margin-bottom: 28px;
+
+  ${minWidth.xs(css`
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 24px;
+  `)}
 `
 
 export const MainPageViewSectionHeadingCopyStyled = styled.div``
@@ -290,11 +384,21 @@ export const MainPageViewAiSectionStyled = styled.section`
 export const MainPageViewAiInnerStyled = styled.div`
   max-width: 1328px;
   margin: auto;
-  padding: 64px 40px;
+  padding: 44px 24px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 70px;
+  grid-template-columns: 1fr;
+  gap: 30px;
   align-items: center;
+
+  ${minWidth.sm(css`
+    padding: 64px 40px;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  `)}
+
+  ${minWidth.md(css`
+    gap: 70px;
+  `)}
 `
 
 export const MainPageViewAiCopyStyled = styled.div``
@@ -304,7 +408,11 @@ export const MainPageViewAiDescriptionStyled = styled.p`
   line-height: 1.7;
   margin: 22px 0 24px;
   color: #d8e1d7;
-  max-width: 480px;
+  max-width: 600px;
+
+  ${minWidth.sm(css`
+    max-width: 480px;
+  `)}
 `
 
 export const MainPageViewLightButtonStyled = styled.button`
@@ -315,8 +423,12 @@ export const MainPageViewConversationStyled = styled.div`
   background: #faf9f5;
   color: #20372c;
   border-radius: 18px;
-  padding: 26px;
+  padding: 20px;
   box-shadow: 0 16px 36px #081b1420;
+
+  ${minWidth.xs(css`
+    padding: 26px;
+  `)}
 `
 
 export const MainPageViewConversationLabelStyled = styled.span`
@@ -325,11 +437,15 @@ export const MainPageViewConversationLabelStyled = styled.span`
 `
 
 export const MainPageViewUserMessageStyled = styled.div`
-  margin: 22px 0 24px 50px;
+  margin: 22px 0 24px 20px;
   padding: 16px 18px;
   background: #e8efd7;
   border-radius: 14px 14px 2px 14px;
   font-size: 14px;
+
+  ${minWidth.xs(css`
+    margin-left: 50px;
+  `)}
 `
 
 export const MainPageViewAssistantMessageStyled = styled.div`
@@ -399,11 +515,21 @@ export const MainPageViewCitiesSectionStyled = styled(
   MainPageViewSectionStyled,
 )`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 30px;
   padding-top: 60px;
   padding-bottom: 60px;
+
+  ${minWidth.xs(css`
+    flex-direction: row;
+    align-items: center;
+  `)}
+
+  ${minWidth.sm(css`
+    align-items: flex-start;
+  `)}
 `
 
 export const MainPageViewCitiesCopyStyled = styled.div``
@@ -416,8 +542,18 @@ export const MainPageViewCitiesDescriptionStyled = styled.p`
 
 export const MainPageViewCityActionsStyled = styled.div`
   display: flex;
-  align-items: center;
-  gap: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+
+  ${minWidth.xs(css`
+    align-items: center;
+  `)}
+
+  ${minWidth.md(css`
+    flex-direction: row;
+    gap: 24px;
+  `)}
 `
 
 export const MainPageViewCityLinkStyled = styled(Link)`
@@ -440,10 +576,6 @@ export const MainPageViewTextButtonStyled = styled.button`
 
 export const MainPageViewStyled = styled.div`
   --muted: ${({ theme }) => theme.colors.text.secondary};
-  ${MainPageViewPromptFormStyled} ${MainPageViewSubmitButtonStyled} {
-    flex-shrink: 0;
-    min-height: 50px;
-  }
   ${MainPageViewAiCopyStyled} ${MainPageViewSectionKickerStyled} {
     color: #c2d3b3;
   }
@@ -456,112 +588,5 @@ export const MainPageViewStyled = styled.div`
   }
   ${MainPageViewAiCopyStyled} ${MainPageViewLightButtonStyled}:hover {
     background: #d8e5bc;
-  }
-  @media (min-width: 1440px) {
-    ${MainPageViewHeroCopyStyled} {
-      padding-left: 96px;
-    }
-  }
-  @media (max-width: 1100px) {
-    ${MainPageViewHeroCopyStyled} {
-      padding-top: 44px;
-    }
-    ${MainPageViewHeroStyled} {
-      min-height: 590px;
-    }
-    ${MainPageViewPromptFormStyled} {
-      flex-wrap: wrap;
-      width: calc(100% - 24px);
-    }
-    ${MainPageViewPromptInputStyled} {
-      flex: 1;
-    }
-    ${MainPageViewPromptFormStyled} ${MainPageViewSubmitButtonStyled} {
-      width: 100%;
-    }
-    ${MainPageViewAiInnerStyled} {
-      gap: 36px;
-    }
-    ${MainPageViewCityActionsStyled} {
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
-  @media (max-width: 800px) {
-    ${MainPageViewHeroStyled} {
-      grid-template-columns: 1fr;
-    }
-    ${MainPageViewHeroCopyStyled} {
-      padding: 36px 24px 28px;
-    }
-    ${MainPageViewHeroTitleStyled} {
-      max-width: 610px;
-      margin-right: 0;
-      font-size: clamp(40px, 7.5vw, 60px);
-    }
-    ${MainPageViewHeroDescriptionStyled} {
-      max-width: 580px;
-      margin-right: 0;
-    }
-    ${MainPageViewPromptFormStyled} {
-      width: 100%;
-    }
-    ${MainPageViewHeroVisualStyled} {
-      height: 320px;
-      margin-left: 24px;
-      border-radius: 100px 0 0 0;
-    }
-    ${MainPageViewSourceBadgeStyled} {
-      bottom: 52px;
-      right: 24px;
-    }
-    ${MainPageViewPhotoCaptionStyled} {
-      right: 24px;
-      bottom: 20px;
-    }
-
-    ${MainPageViewAiInnerStyled} {
-      padding: 44px 24px;
-      grid-template-columns: 1fr;
-      gap: 30px;
-    }
-    ${MainPageViewAiDescriptionStyled} {
-      max-width: 600px;
-    }
-    ${MainPageViewCitiesSectionStyled} {
-      align-items: flex-start;
-    }
-  }
-  @media (max-width: 560px) {
-    ${MainPageViewSectionHeadingStyled} {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    ${MainPageViewHeroVisualStyled} {
-      height: 280px;
-    }
-    ${MainPageViewHeroDescriptionStyled} {
-      font-size: 15px;
-    }
-    ${MainPageViewHeroHintStyled} {
-      max-width: 280px;
-    }
-    ${MainPageViewSuggestionsStyled} {
-      gap: 8px;
-      padding: 0;
-    }
-    ${MainPageViewConversationStyled} {
-      padding: 20px;
-    }
-    ${MainPageViewUserMessageStyled} {
-      margin-left: 20px;
-    }
-    ${MainPageViewCitiesSectionStyled} {
-      flex-direction: column;
-    }
-    ${MainPageViewCityActionsStyled} {
-      align-items: flex-start;
-    }
   }
 `
