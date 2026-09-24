@@ -1,4 +1,4 @@
-import { View } from './View'
+import { MainPageView } from './View'
 import { Page, PageProps } from 'src/components/pages/_App/interfaces'
 import { SeoHeaders } from 'src/components/seo/SeoHeaders'
 
@@ -17,6 +17,8 @@ const where: ConceptsQueryVariables['where'] = {
     startsWith: 'company:',
   },
 }
+
+const take = 3
 
 export type MainPageProps = {
   city: City | undefined
@@ -45,6 +47,7 @@ export const MainPageCustom: Page<MainPageProps> = ({ siteOrigin, city }) => {
             }
           : undefined,
     },
+    take,
   })
 
   const response = useConceptsQuery({
@@ -66,7 +69,7 @@ export const MainPageCustom: Page<MainPageProps> = ({ siteOrigin, city }) => {
         siteOrigin={siteOrigin}
       />
 
-      <View companies={companies} />
+      <MainPageView companies={companies} />
     </>
   )
 }

@@ -1,51 +1,57 @@
-// import { MainPageView } from '@/components/pages/MainPage/View/MainPageView'
-// import dynamic from 'next/dynamic'
-// import { useMemo } from 'react'
 import { Company } from 'src/Custom/interfaces'
-import { ConceptItemCustom } from '../../Concepts/View/ConceptItem'
-// import { MarkdownField } from 'src/components/MarkdownField'
-// import { CompanyFragment } from 'src/gql/generated'
-// import { createResizedUrl } from 'src/helpers/imageFormats'
-// import { MainPageView } from 'src/Layout/V2/components/pages/MainPage/View/MainPageView'
-// import { Company } from 'src/Layout/V2/types'
-// import { makeCompanyUrl } from 'src/uikit/Link/Company'
-
-// const OsmMap = dynamic(
-//   () => import('../../../components/OsmMap').then((r) => r.OsmMap),
-//   {
-//     ssr: false,
-//   }
-// )
-
-// const SUGGESTIONS = [
-//   'Баня с бассейном',
-//   'Парная на дровах',
-//   'До 2000₽ за час',
-//   'Хамам и СПА',
-// ]
-
-// const MainPageMap: React.FC = () => {
-//   return (
-//     <div
-//       style={{
-//         height: '100%',
-//       }}
-//     >
-//       <OsmMap />
-//     </div>
-//   )
-// }
+import { MainPageViewCompanyStyled, MainPageViewStyled } from './styles'
+import { getResizedImagePath } from 'src/helpers/getResizedImagePath'
+import React, { useCallback } from 'react'
+import { useRouter } from 'next/router'
 
 type ViewProps = {
   companies: Company[]
 }
 
-export const View: React.FC<ViewProps> = ({ companies }) => {
+export const MainPageView: React.FC<ViewProps> = ({ companies }) => {
+  const router = useRouter()
+
+  const onClickMapLink = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault()
+      event.stopPropagation()
+
+      const link = event.currentTarget.value
+
+      link && router.push(link)
+    },
+    [router],
+  )
+
   return (
-    <>
-      {companies.map((n) => (
-        <ConceptItemCustom key={n.id} concept={n} variant="list" />
-      ))}
-    </>
+    <MainPageViewStyled>
+      {companies.map((n) => {
+        const { id, name, image, lat, lng } = n
+
+        const imageSrc = image
+          ? getResizedImagePath({
+              path: image,
+              size: 'middle',
+            })
+          : undefined
+
+        return (
+          <MainPageViewCompanyStyled key={id}>
+            <h3>{name}</h3>
+
+            {imageSrc && <img src={imageSrc} alt={name} title={name} />}
+
+            {lat && lng ? (
+              <button
+                value={`/map?lat=${lat}&lng=${lng}`}
+                onClick={onClickMapLink}
+              >
+                На карте
+              </button>
+            ) : null}
+          </MainPageViewCompanyStyled>
+        )
+      })}
+    </MainPageViewStyled>
   )
 }

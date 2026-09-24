@@ -1,4 +1,3 @@
-import { FooterStyled } from 'src/Custom/Layout/Footer/styles'
 import {
   CustomLayoutMainStyled,
   CustomLayoutStyled,
@@ -13,9 +12,6 @@ export const MapPageGlobalStyles = createGlobalStyle`
     
     ${CustomLayoutMainStyled} {
       overflow: auto;
-    }
-    ${FooterStyled} {
-        display: none;
     }
   }
 
