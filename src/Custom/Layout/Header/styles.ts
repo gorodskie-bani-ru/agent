@@ -2,7 +2,8 @@ import styled, { css } from 'styled-components'
 import { minWidth } from '../../../theme/helpers/media-query'
 
 export const HeaderStyled = styled.header`
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 300;
   background: ${({ theme }) => theme.backgrounds.page};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};

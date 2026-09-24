@@ -9,8 +9,8 @@ import {
   getConceptsConnectionQueryVariables,
   getConceptsConnectionQueryVariablesProps,
 } from 'src/components/pages/Concepts/helpers'
-import { ConceptsView } from 'src/components/pages/Concepts/View'
 import { SeoHeaders } from 'src/components/seo/SeoHeaders'
+import { CustomLayoutSectionStyled } from 'src/Custom/Layout/styles'
 import {
   ConceptsConnectionDocument,
   ConceptsConnectionQuery,
@@ -20,6 +20,11 @@ import {
   useConceptsConnectionQuery,
 } from 'src/gql/generated'
 import { getCurrentUser } from 'src/helpers/getCurrentUser'
+import { MainPageViewCompanyGridStyled } from '../MainPage/View/styles'
+import { useMemo } from 'react'
+import { isCompany } from 'src/Custom/interfaces'
+import { CompanyCard } from '../MainPage/View/CompanyCard'
+import { Pagination } from 'src/components/Pagination'
 
 const where: ConceptsQueryVariables['where'] = {
   type: {
@@ -45,6 +50,17 @@ export const CompaniesPage: CompaniesPageProps = ({ siteOrigin, page }) => {
 
   console.log('response concepts', response.data?.concepts)
 
+  const companies = useMemo(
+    () => response.data?.concepts?.filter(isCompany) ?? [],
+    [response.data?.concepts],
+  )
+
+  const count = response.data?.kBConceptsCount ?? 0
+
+  const limit = response.variables.take ?? count
+
+  const totalPages = count ? Math.ceil(count / limit) : 0
+
   return (
     <>
       <SeoHeaders
@@ -53,12 +69,15 @@ export const CompaniesPage: CompaniesPageProps = ({ siteOrigin, page }) => {
         siteOrigin={siteOrigin}
       />
 
-      <ConceptsView
-        concepts={response.data?.concepts ?? []}
-        count={response.data?.kBConceptsCount ?? 0}
-        page={page}
-        limit={variables.take}
-      />
+      <CustomLayoutSectionStyled>
+        <MainPageViewCompanyGridStyled>
+          {companies.map((company) => (
+            <CompanyCard key={company.id} company={company} />
+          ))}
+        </MainPageViewCompanyGridStyled>
+      </CustomLayoutSectionStyled>
+
+      <Pagination currentPage={page} totalPages={totalPages} />
     </>
   )
 }

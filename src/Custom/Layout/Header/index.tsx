@@ -97,11 +97,12 @@ export const Header: React.FC = () => {
           onBlur={handleBlur}
         >
           <Link
-            href="/companies"
-            aria-current={router.pathname === '/companies' ? 'page' : undefined}
+            href="/map"
+            aria-current={router.pathname === '/map' ? 'page' : undefined}
             onClick={closeMenu}
+            title="Все бани и сауны на карте"
           >
-            Заведения
+            Карта
           </Link>
           <Link
             href="/city"

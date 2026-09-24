@@ -18,6 +18,10 @@ export const CustomKbConceptType = {
     value: 'review:company',
     description: 'Отзыв о компании',
   },
+  Comment: {
+    value: 'comment:default',
+    description: 'Комментарий',
+  },
   BlogDefault: {
     value: 'blog:default',
     description: 'Публичный блог',
@@ -72,4 +76,12 @@ export function isReviewCompany(
   concept: KbConceptFragment,
 ): concept is ReviewCompany {
   return concept.type === CustomKbConceptType.ReviewCompany.value
+}
+
+export type Comment = KbConceptFragment & {
+  type: typeof CustomKbConceptType.ReviewCompany.value
+}
+
+export function isComment(concept: KbConceptFragment): concept is Comment {
+  return concept.type === CustomKbConceptType.Comment.value
 }

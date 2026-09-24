@@ -170,9 +170,9 @@ export const FooterStyled = styled.footer`
   width: 100%;
   max-width: 1328px;
   margin: auto;
-  padding: 0 24px 90px;
+  padding: 40px 24px 90px;
 
   ${minWidth.sm(css`
-    padding: 0 40px 28px;
+    padding: 40px 40px 28px;
   `)}
 `
