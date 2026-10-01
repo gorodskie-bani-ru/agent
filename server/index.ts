@@ -7,6 +7,7 @@ import { initN8n, stopN8n } from './n8n'
 import { runBootstrap } from './n8n/bootstrap'
 import { generateSitemap, SitemapSection } from './sitemap'
 import { imageResizerMiddleware } from './middleware/imageResizer'
+import { createAgentChatRouter } from './chat/router'
 
 const withN8N = process.env.N8N_ENABLED === 'true'
 
@@ -56,6 +57,11 @@ async function startServer() {
 
   // Trust proxy headers (X-Forwarded-Proto, X-Forwarded-For) from Traefik
   server.set('trust proxy', true)
+
+  const chatAgentUrl = process.env.CHAT_AGENT_URL?.trim()
+  if (chatAgentUrl) {
+    server.use(createAgentChatRouter(chatAgentUrl))
+  }
 
   // Proxy to n8n (webhook, webhook-test, mcp)
   const n8nUrl = process.env.N8N_URL || 'http://localhost:5678'
