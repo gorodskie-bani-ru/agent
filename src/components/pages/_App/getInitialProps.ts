@@ -78,8 +78,8 @@ export const getInitialProps: MainApp['getInitialProps'] = async (
   }
 
   if (
-    statusCode !== undefined &&
-    statusCode !== 200 &&
+    // statusCode !== undefined &&
+    // statusCode !== 200 &&
     ctx.req?.url &&
     ctx.res
   ) {

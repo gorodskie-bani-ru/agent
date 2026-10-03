@@ -41,3 +41,5 @@ export * from './SystemLog'
 export * from './Incident'
 export * from './RedirectRule'
 // =======================================
+
+import './Custom/Statistics'

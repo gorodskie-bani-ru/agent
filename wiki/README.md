@@ -9,6 +9,7 @@
 - [Custom Nodes](./custom-nodes/README.md)
 - [Workflows](./workflows/README.md)
 - [Agent World](./agent-world/README.md) — agent knowledge graph
+- [Site statistics](./statistics/README.md) — events, statuses, SPA navigation, and delivery limits
 - [Testing](./testing/README.md)
 - [Mail Server](./mailserver/README.md)
 - [World3D](./world3d/README.md) — multiplayer 3D environment

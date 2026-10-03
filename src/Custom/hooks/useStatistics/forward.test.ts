@@ -1,0 +1,180 @@
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { forwardStatistics } from '../../../../server/schema/types/Custom/Statistics/forward'
+
+const saved = {
+  id: '1',
+  rootId: null,
+  sequence: '1',
+  userId: 'site',
+  type: 'page.viewed',
+  status: 'success',
+  data: {},
+}
+afterEach(() => {
+  vi.unstubAllGlobals()
+  vi.unstubAllEnvs()
+})
+
+describe('forwarding statistics', () => {
+  it('sends each event separately with shared metadata and UTC occurrence time', async () => {
+    const send = vi.fn(
+      async () =>
+        new Response(JSON.stringify({ data: { createActivity: saved } })),
+    )
+    vi.stubGlobal('fetch', send)
+    const events = [
+      {
+        eventId: 'page.viewed',
+        timestamp: 1790971112104,
+        url: 'https://example.com/a',
+      },
+      { eventId: 'button.clicked', timestamp: 1790971112204 },
+    ]
+    const records = await forwardStatistics(
+      'http://center/api/',
+      'secret',
+      { visitorId: 'visitor', events },
+      { ip: '127.0.0.1' },
+    )
+    expect(records).toHaveLength(2)
+    expect(send).toHaveBeenCalledTimes(2)
+    for (const [index, call] of send.mock.calls.entries()) {
+      const args: unknown[] = call
+      const options = args[1]
+      if (
+        !options ||
+        typeof options !== 'object' ||
+        !('body' in options) ||
+        typeof options.body !== 'string'
+      ) {
+        throw new Error('Missing request')
+      }
+      const { variables } = JSON.parse(options.body)
+      expect(variables.input.type).toBe(events[index].eventId)
+      expect(variables.input.status).toBe('success')
+      expect(variables.input.data.events).toBeUndefined()
+      expect(variables.input.data).toMatchObject({
+        ...events[index],
+        visitorId: 'visitor',
+        ip: '127.0.0.1',
+        occurredAt: new Date(events[index].timestamp).toISOString(),
+      })
+    }
+  })
+  it('validates all events before forwarding', async () => {
+    const send = vi.fn()
+    vi.stubGlobal('fetch', send)
+    await expect(
+      forwardStatistics(
+        'http://center/api/',
+        'secret',
+        {
+          events: [
+            { eventId: 'ok', timestamp: 1 },
+            { eventId: 'bad', timestamp: 'yesterday' },
+          ],
+        },
+        {},
+      ),
+    ).rejects.toThrow('timestamp')
+    expect(send).not.toHaveBeenCalled()
+  })
+  it('reports the saved prefix so retries can omit successful events', async () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    const send = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ data: { createActivity: saved } })),
+      )
+      .mockRejectedValueOnce(new Error('offline'))
+    vi.stubGlobal('fetch', send)
+    await expect(
+      forwardStatistics(
+        'http://center/api/',
+        'secret',
+        {
+          events: [
+            { eventId: 'first', timestamp: 1 },
+            { eventId: 'second', timestamp: 2 },
+            { eventId: 'third', timestamp: 3 },
+          ],
+        },
+        {},
+      ),
+    ).rejects.toMatchObject({ extensions: { acceptedEventCount: 1 } })
+    expect(send).toHaveBeenCalledTimes(2)
+  })
+})
+
+it('forwards explicit statuses independently within a batch', async () => {
+  const send = vi.fn<typeof fetch>(
+    async () =>
+      new Response(JSON.stringify({ data: { createActivity: saved } })),
+  )
+  vi.stubGlobal('fetch', send)
+  await forwardStatistics(
+    'http://center/api/',
+    'secret',
+    {
+      events: ['failed', 'pending', 'success'].map((status) => ({
+        eventId: 'custom.event',
+        timestamp: 1,
+        status,
+      })),
+    },
+    {},
+  )
+  expect(
+    send.mock.calls.map(([, options]) => {
+      const body = JSON.parse(String(options?.body))
+      expect(body.query).toContain('$input: ActivityCreateInput!')
+      expect(body.query).toContain('createActivity(input: $input)')
+      return body.variables.input.status
+    }),
+  ).toEqual(['failed', 'pending', 'success'])
+})
+
+it.each(['error', '', null, 1])(
+  'rejects invalid status %s before forwarding any events',
+  async (status) => {
+    const send = vi.fn()
+    vi.stubGlobal('fetch', send)
+    await expect(
+      forwardStatistics(
+        'http://center/api/',
+        'secret',
+        {
+          events: [
+            { eventId: 'valid', timestamp: 1 },
+            { eventId: 'invalid', timestamp: 2, status },
+          ],
+        },
+        {},
+      ),
+    ).rejects.toThrow('статус')
+    expect(send).not.toHaveBeenCalled()
+  },
+)
+
+it('forwards complete chat text beyond the former 48000 character limit', async () => {
+  const send = vi.fn<typeof fetch>(
+    async () =>
+      new Response(JSON.stringify({ data: { createActivity: saved } })),
+  )
+  vi.stubGlobal('fetch', send)
+  const response = 'Длинный ответ '.repeat(10000)
+  await forwardStatistics(
+    'https://example.test/api',
+    'test',
+    {
+      events: [
+        { eventId: 'chat.message.received', timestamp: Date.now(), response },
+      ],
+    },
+    {},
+  )
+  const options = send.mock.calls[0][1]
+  expect(JSON.parse(String(options?.body)).variables.input.data.response).toBe(
+    response,
+  )
+})
