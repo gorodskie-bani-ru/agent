@@ -73,14 +73,14 @@ export async function readStatisticsResponse(response: Response) {
     !('data' in result) ||
     !result.data ||
     typeof result.data !== 'object' ||
-    !('recordStatistic' in result.data)
+    !('createActivity' in result.data)
   ) {
     throw serviceError(
-      'в ответе отсутствует data.recordStatistic.',
+      'в ответе отсутствует data.createActivity.',
       'STATISTICS_INVALID_RESPONSE',
     )
   }
-  const record = result.data.recordStatistic
+  const record = result.data.createActivity
   if (
     !record ||
     typeof record !== 'object' ||

@@ -163,6 +163,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
         if (error.name !== 'AbortError') {
           recordStatistics('chat.message.error', {
             ...statisticsData,
+            status: 'failed',
             sessionId,
             error: { name: error.name, message: error.message },
           })

@@ -48,9 +48,9 @@ export const App: MainApp<AppProps> = ({ Component, pageProps }) => {
 
   const user = data?.me
 
-  useStatistics(user?.id, userLoading)
-
   const { statusCode } = pageProps
+
+  useStatistics(user?.id, userLoading, statusCode)
 
   const content = useMemo(() => {
     let content = null

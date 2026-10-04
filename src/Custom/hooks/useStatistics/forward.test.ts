@@ -19,7 +19,7 @@ describe('forwarding statistics', () => {
   it('sends each event separately with shared metadata and UTC occurrence time', async () => {
     const send = vi.fn(
       async () =>
-        new Response(JSON.stringify({ data: { recordStatistic: saved } })),
+        new Response(JSON.stringify({ data: { createActivity: saved } })),
     )
     vi.stubGlobal('fetch', send)
     const events = [
@@ -50,9 +50,10 @@ describe('forwarding statistics', () => {
         throw new Error('Missing request')
       }
       const { variables } = JSON.parse(options.body)
-      expect(variables.eventId).toBe(events[index].eventId)
-      expect(variables.data.events).toBeUndefined()
-      expect(variables.data).toMatchObject({
+      expect(variables.input.type).toBe(events[index].eventId)
+      expect(variables.input.status).toBe('success')
+      expect(variables.input.data.events).toBeUndefined()
+      expect(variables.input.data).toMatchObject({
         ...events[index],
         visitorId: 'visitor',
         ip: '127.0.0.1',
@@ -83,7 +84,7 @@ describe('forwarding statistics', () => {
     const send = vi
       .fn()
       .mockResolvedValueOnce(
-        new Response(JSON.stringify({ data: { recordStatistic: saved } })),
+        new Response(JSON.stringify({ data: { createActivity: saved } })),
       )
       .mockRejectedValueOnce(new Error('offline'))
     vi.stubGlobal('fetch', send)
@@ -105,10 +106,60 @@ describe('forwarding statistics', () => {
   })
 })
 
+it('forwards explicit statuses independently within a batch', async () => {
+  const send = vi.fn<typeof fetch>(
+    async () =>
+      new Response(JSON.stringify({ data: { createActivity: saved } })),
+  )
+  vi.stubGlobal('fetch', send)
+  await forwardStatistics(
+    'http://center/api/',
+    'secret',
+    {
+      events: ['failed', 'pending', 'success'].map((status) => ({
+        eventId: 'custom.event',
+        timestamp: 1,
+        status,
+      })),
+    },
+    {},
+  )
+  expect(
+    send.mock.calls.map(([, options]) => {
+      const body = JSON.parse(String(options?.body))
+      expect(body.query).toContain('$input: ActivityCreateInput!')
+      expect(body.query).toContain('createActivity(input: $input)')
+      return body.variables.input.status
+    }),
+  ).toEqual(['failed', 'pending', 'success'])
+})
+
+it.each(['error', '', null, 1])(
+  'rejects invalid status %s before forwarding any events',
+  async (status) => {
+    const send = vi.fn()
+    vi.stubGlobal('fetch', send)
+    await expect(
+      forwardStatistics(
+        'http://center/api/',
+        'secret',
+        {
+          events: [
+            { eventId: 'valid', timestamp: 1 },
+            { eventId: 'invalid', timestamp: 2, status },
+          ],
+        },
+        {},
+      ),
+    ).rejects.toThrow('статус')
+    expect(send).not.toHaveBeenCalled()
+  },
+)
+
 it('forwards complete chat text beyond the former 48000 character limit', async () => {
   const send = vi.fn<typeof fetch>(
     async () =>
-      new Response(JSON.stringify({ data: { recordStatistic: saved } })),
+      new Response(JSON.stringify({ data: { createActivity: saved } })),
   )
   vi.stubGlobal('fetch', send)
   const response = 'Длинный ответ '.repeat(10000)
@@ -123,7 +174,7 @@ it('forwards complete chat text beyond the former 48000 character limit', async 
     {},
   )
   const options = send.mock.calls[0][1]
-  expect(JSON.parse(String(options?.body)).variables.data.response).toBe(
+  expect(JSON.parse(String(options?.body)).variables.input.data.response).toBe(
     response,
   )
 })

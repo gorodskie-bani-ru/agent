@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import Router from 'next/router'
 import { createVisitorId, statisticsQuery, storedId } from './transport'
 
@@ -6,7 +6,18 @@ import { STATISTICS_EVENT } from './events'
 
 type Event = Record<string, unknown>
 
-export function useStatistics(userId: string | undefined, loading: boolean) {
+export function useStatistics(
+  userId: string | undefined,
+  loading: boolean,
+  statusCode?: number,
+) {
+  const pageStatus = useRef(statusCode)
+
+  // Next emits routeChangeComplete after committing the new page. Update in
+  // the layout phase so the listener sees its status, not the previous page's.
+  useLayoutEffect(() => {
+    pageStatus.current = statusCode
+  }, [statusCode])
   const identity = useRef({ userId, loading })
   const recordIdentity = useRef<(() => void) | null>(null)
 
@@ -120,6 +131,14 @@ export function useStatistics(userId: string | undefined, loading: boolean) {
       })
       queue = queue.slice(-100)
     }
+    const pageData = () => ({
+      title: document.title,
+      statusCode: pageStatus.current,
+      status:
+        pageStatus.current !== undefined && pageStatus.current >= 400
+          ? 'failed'
+          : 'success',
+    })
     const identify = () => {
       if (!visitorId) {
         try {
@@ -139,9 +158,10 @@ export function useStatistics(userId: string | undefined, loading: boolean) {
       if (lastIdentity === next) {
         return
       }
-      record(lastIdentity === null ? 'page.viewed' : 'identity.changed', {
-        title: document.title,
-      })
+      record(
+        lastIdentity === null ? 'page.viewed' : 'identity.changed',
+        lastIdentity === null ? pageData() : { title: document.title },
+      )
       lastIdentity = next
       void flush()
     }
@@ -172,7 +192,7 @@ export function useStatistics(userId: string | undefined, loading: boolean) {
       previousUrl = currentUrl
       currentUrl = location.href
       scrollStart = window.scrollY
-      record('page.viewed', { title: document.title })
+      record('page.viewed', pageData())
     }
     const onClick = (event: MouseEvent) => {
       const target =

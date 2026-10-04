@@ -150,6 +150,7 @@ it('preserves the complete question and error in statistics', async () => {
     'chat.message.error',
     expect.objectContaining({
       message: message.trim(),
+      status: 'failed',
       error: { name: 'Error', message: error },
     }),
   )

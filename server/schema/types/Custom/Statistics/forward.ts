@@ -36,7 +36,16 @@ export async function forwardStatistics(
         'Событие должно содержать eventId и timestamp в миллисекундах Unix.',
       )
     }
-    return { ...event, eventId: event.eventId, timestamp: event.timestamp }
+    const status = 'status' in event ? event.status : 'success'
+    if (status !== 'pending' && status !== 'success' && status !== 'failed') {
+      throw new GraphQLError('Некорректный статус события статистики.')
+    }
+    return {
+      ...event,
+      eventId: event.eventId,
+      timestamp: event.timestamp,
+      status,
+    }
   })
   const { events: _events, ...shared } = data
   const records: Awaited<ReturnType<typeof requestStatistics>>[] = []
@@ -51,18 +60,21 @@ export async function forwardStatistics(
           },
           signal: AbortSignal.timeout(5000),
           body: JSON.stringify({
-            query: `mutation RecordStatistic($eventId: String!, $data: Json!) {
-            recordStatistic(eventId: $eventId, data: $data, status: success) {
+            query: `mutation CreateActivity($input: ActivityCreateInput!) {
+            createActivity(input: $input) {
               id rootId sequence userId type status data
             }
           }`,
             variables: {
-              eventId: event.eventId,
-              data: {
-                ...shared,
-                ...event,
-                ...metadata,
-                occurredAt: new Date(event.timestamp).toISOString(),
+              input: {
+                type: event.eventId,
+                status: event.status,
+                data: {
+                  ...shared,
+                  ...event,
+                  ...metadata,
+                  occurredAt: new Date(event.timestamp).toISOString(),
+                },
               },
             },
           }),

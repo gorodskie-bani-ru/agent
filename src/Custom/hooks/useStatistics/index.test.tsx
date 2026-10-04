@@ -53,6 +53,7 @@ describe('visitor statistics', () => {
     recordStatistics('chat.message.sent', { messageId: 'm1', sessionId: 's1' })
     recordStatistics('chat.message.error', {
       messageId: 'm1',
+      status: 'failed',
       error: { message: 'offline' },
     })
     await act(async () => {
@@ -68,6 +69,7 @@ describe('visitor statistics', () => {
       expect.objectContaining({
         eventId: 'chat.message.error',
         messageId: 'm1',
+        status: 'failed',
         error: { message: 'offline' },
       }),
     ])
@@ -188,4 +190,69 @@ it('sends large chat events intact without keepalive and splits batches', async 
     expect.objectContaining({ message: 'Следующий вопрос' }),
   ])
   hook.unmount()
+})
+
+it.each([undefined, 200, 399, 400, 404, 500])(
+  'records initial page status %s',
+  async (statusCode) => {
+    const hook = renderHook(() => useStatistics(undefined, false, statusCode))
+    await act(async () => {
+      // Let the initial page event finish sending.
+    })
+    expect(batches()[0].events[0]).toMatchObject({
+      eventId: 'page.viewed',
+      status:
+        statusCode !== undefined && statusCode >= 400 ? 'failed' : 'success',
+      ...(statusCode === undefined ? {} : { statusCode }),
+    })
+    hook.unmount()
+  },
+)
+
+it('uses the committed page status on SPA and hash transitions without stale failures', async () => {
+  const initialProps: { statusCode: number | undefined } = {
+    statusCode: undefined,
+  }
+  const hook = renderHook(
+    ({ statusCode }: { statusCode: number | undefined }) =>
+      useStatistics(undefined, false, statusCode),
+    { initialProps },
+  )
+  await act(async () => {
+    // Let the initial page event finish sending.
+  })
+  for (const statusCode of [404, 500, 200, undefined]) {
+    const previousUrl = location.href
+    const url = `/statistics-test-${String(statusCode)}`
+    history.pushState({}, '', url)
+    hook.rerender({ statusCode })
+    act(() => routes.get('routeChangeComplete')?.())
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(3000)
+    })
+    const events = batches().at(-1).events
+    expect(events).toHaveLength(1)
+    expect(events[0]).toMatchObject({
+      eventId: 'page.viewed',
+      url: location.href,
+      referrer: previousUrl,
+      status:
+        statusCode !== undefined && statusCode >= 400 ? 'failed' : 'success',
+    })
+    expect(events[0].statusCode).toBe(statusCode)
+  }
+  hook.rerender({ statusCode: 404 })
+  history.pushState({}, '', '#details')
+  act(() => routes.get('hashChangeComplete')?.())
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(3000)
+  })
+  expect(batches().at(-1).events[0]).toMatchObject({
+    eventId: 'page.viewed',
+    statusCode: 404,
+    status: 'failed',
+    url: location.href,
+  })
+  hook.unmount()
+  history.replaceState({}, '', '/')
 })

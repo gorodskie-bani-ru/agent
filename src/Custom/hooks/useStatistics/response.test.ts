@@ -69,7 +69,7 @@ describe('statistics service response', () => {
     }
     await expect(
       readStatisticsResponse(
-        response({ errors: [], data: { recordStatistic: record } }),
+        response({ errors: [], data: { createActivity: record } }),
       ),
     ).resolves.toEqual(record)
   })
